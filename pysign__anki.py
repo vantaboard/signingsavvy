@@ -1,21 +1,8 @@
-import re
-import string
-import time
-from dataclasses import dataclass
-from os import listdir
-from os.path import isfile, join
-from xml.dom import minidom
-
-import requests
-from bs4 import BeautifulSoup
-from dotenv import dotenv_values
-from requests import session
-
 anki_base = 'http://localhost:8765'
 path_base = 'D:/personal/code/signlanguage_cards'
 
-
-def post(action, deck_name, model_name, front, extra, initial, source, tags, video_path, video_filename):
+def post(action, deck_name, model_name, front, extra,
+  initial, source, tags, video_path, video_filename):
   req = requests.post(anki_base, json = {
     'action': action,
     'version': 6,
@@ -59,11 +46,13 @@ tags = [ 'nonfiction::asl::vocabulary::{0}'.format(letter) ]
 for synonym in get_synonyms(deckname, html):
   tags.append(synonym)
 
-req = post('addNote', deck_name, model_name, get_front_field(html), get_extra_field(html), get_initial(html), get_source(html, letter, id, fingerspell = True), tags, video_path, video_filename)
+req = post('addNote', deck_name, model_name, get_front_field(html),
+  get_extra_field(html), get_initial(html), get_source(html, letter, id,
+  variation), tags, video_path, video_filename)
 
 def get_variations(html):
   soup = BeautifulSoup(html, 'html.parser')
- desc.ul.findAll('li')[0].text.strip() 
+  desc.ul.findAll('li')[0].text.strip() 
 
 
 def get_front_field(html):
@@ -89,25 +78,28 @@ def get_video_link(html):
 deck_name = 'nonfiction::asl'
 model_name = 'basic_reverse_extra_initial'
 
-for letter in list(string.ascii_uppercase):
-    path = '{0}/html/{1}'.format(path_base, letter)
-    files = [f for f in listdir(path) if isfile(join(path, f))]
+def create_flashcards():
+  for letter in list(string.ascii_uppercase):
+      path = '{0}/html/{1}'.format(path_base, letter)
+      files = [f for f in listdir(path) if isfile(join(path, f))]
 
-    for file in files:
-        path = '{0}/html/{1}'.format(path_base, letter)
-        html = open('{0}/{1}'.format(path, file), 'r')
+      for file in files:
+          path = '{0}/html/{1}'.format(path_base, letter)
+          html = open('{0}/{1}'.format(path, file), 'r')
 
-        path = '{0}/videos/{1}'.format(path_base, letter)
-        video_path = re.sub('html', 'mp4', '{0}/{1}'.format(path, file))
-        video_filename = video_path.rsplit('/', 1)[-1]
+          path = '{0}/videos/{1}'.format(path_base, letter)
+          video_path = re.sub('html', 'mp4', '{0}/{1}'.format(path, file))
+          video_filename = video_path.rsplit('/', 1)[-1]
 
-        '{0}/html/sign/{1}/{2}/{3}'.format(path_base, letter,
-          id, fingerspell)
+          '{0}/html/sign/{1}/{2}/{3}'.format(path_base, letter,
+            id, fingerspell)
 
-        tags = [ 'nonfiction::asl::vocabulary::{0}'.format(letter) ]
-        for synonym in get_synonyms(deckname, html):
-          tags.append(synonym)
+          tags = [ 'nonfiction::asl::vocabulary::{0}'.format(letter) ]
+          for synonym in get_synonyms(deckname, html):
+            tags.append(synonym)
 
-        req = post('addNote', deck_name, model_name, get_front_field(html), get_extra_field(html), get_initial(html), get_source(html, letter, id, fingerspell = True), tags, video_path, video_filename)
+          req = post('addNote', deck_name, model_name, get_front_field(html),
+            get_extra_field(html), get_initial(html), get_source(html, letter,
+            id, fingerspell = True), tags, video_path, video_filename)
 
-        print(req)
+          print(req)
