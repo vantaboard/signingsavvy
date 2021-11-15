@@ -1,9 +1,11 @@
-def get_api_route(link):
-  return '{0}/{1}'.format(API_BASE, link)
+from pysign__config import config
+
+def get_route(link):
+  return '{0}/{1}'.format(config['API_BASE'], link)
 
 def get_http_words_paths(letters):
   for letter in letters:
-    return '{0}/browse/{1}'.format(API_BASE, letter)
+    return '{0}/browse/{1}'.format(config['API_BASE'], letter)
 
 def get_http_word_links(action):
   links = []

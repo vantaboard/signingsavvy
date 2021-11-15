@@ -1,64 +1,69 @@
-from pysign_assets import get_html_files
+from pysign_assets import get_active_files
 
-from pysign__http import (get_api_route, get_http_word_links,
-                          get_http_words_paths)
+from pysign__formatting import sign_href_to_file
+from pysign__globals import LETTERS
+from pysign__http import get_http_word_links, get_http_words_paths, get_route
 
-with session() as c:
-  c.post(API_BASE, data = payload)
 
-  def get_variations(action):
-    soup = BeautifulSoup(action, 'html.parser')
-    descs = soup.findAll('div', { 'class' : 'desc' })
+def get_variations(action):
+  soup = BeautifulSoup(action, 'html.parser')
+  descs = soup.findAll('div', { 'class' : 'desc' })
 
-    for desc in descs:
-      if (desc.find("h5").text == "Sign Variations for this Word"):
-        if (desc.ul):
-          return desc.ul.findAll('li')
+  for desc in descs:
+    if (desc.find("h5").text == "Sign Variations for this Word"):
+      if (desc.ul):
+        return desc.ul.findAll('li')
 
-    return null
+  return null
 
-  def get_other_variants(letters = LETTERS):
-    for i in range(len(letters)):
-      files = get_html_files(letter)
-      for file in files: file = '{0}1.html'.format(file[-6])
-      files = list(set(files))
+def get_other_variants(letters = LETTERS):
+  for i in range(len(letters)):
+    letter = letters[i]
 
-      for file in files:
-        file = 'html/{0}/{1}'.format(letter, file)
-        variations = get_variations(file)[1:]
-        
-        if not os.path.exists(file):
-          for variation in variations:
-            req = c.get(variation)
-            links = get_http_word_links(req.text)
+    files = get_active_files(letter)
+    paths = []
+    for file in files:
+      file = file[-1]
+      file.append(1)
+      html_paths.append(get_html_path(letter, file))
 
-            for link in links:
-              route = get_api_route(link)
-              print("Writing", file, "from route", route)
+    html_paths = list(set(paths))
 
-              req = c.get(route)
-              file = open(file).write(req.text).close()
-        else:
-          print("Skipping", file, "as it already exists")
+    for path in html_paths:
+      variations = get_variations(path)[1:]
+      
+      if not os.path.exists(path):
+        for url in variations:
+          r = c.get(url)
+          links = get_http_word_links(r.text)
 
-  def get_first_variants(letters = LETTERS):
-    paths = get_http_words_paths(letters)
+          for link in links:
+            route = get_route(link)
+            print("Writing", file, "from route", route)
 
-    for i in len(letters):
-      path = paths[i]
-      letter = letters[i]
+            req = c.get(route)
+            file = open(file).write(req.text).close()
+      else:
+        print("Skipping", file, "as it already exists")
 
-      req = c.get(path)
-      links = get_http_word_links(req.text)
+def get_first_variants(letters = LETTERS):
+  paths = get_http_words_paths(letters)
 
-      for link in links:
-        file = 'html/{0}/{1}.html'.format(letter, format_sign_file(link))
-        if not os.path.exists(format_sign_file(file)):
-            color = fg('light_green_2')
-            print(color + "Downloading", color + "{0}".format(file))
+  for i in len(letters):
+    path = paths[i]
+    letter = letters[i]
 
-            open(file).write(res.text).close()
-        else:
-          color = fg('light_yellow')
-          print(color + "Skipping", color + "{0}".format(file),
-                color + "as it already exists")
+    req = c.get(path)
+    links = browse_word_links(req.text)
+
+    for link in links:
+      file = 'html/{0}/{1}.html'.format(letter, sign_href_to_file(link))
+      if not os.path.exists(sign_href_to_file(file)):
+          color = fg('light_green_2')
+          print(color + "Downloading", color + "{0}".format(file))
+
+          open(file).write(res.text).close()
+      else:
+        color = fg('light_yellow')
+        print(color + "Skipping", color + "{0}".format(file),
+              color + "as it already exists")

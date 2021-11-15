@@ -1,5 +1,5 @@
-anki_base = 'http://localhost:8765'
-path_base = 'D:/personal/code/signlanguage_cards'
+import requests
+from pysign__globals import ANKI_BASE
 
 def post(action, deck_name, model_name, front, extra,
   initial, source, tags, video_path, video_filename):
@@ -39,8 +39,7 @@ def post(action, deck_name, model_name, front, extra,
 
   return req
 
-'{0}/html/sign/{1}/{2}/{3}'.format(path_base, letter,
-  id, fingerspell)
+'html/sign/{0}/{1}/{2}'.format(letter, id, variant_number)
 
 tags = [ 'nonfiction::asl::vocabulary::{0}'.format(letter) ]
 for synonym in get_synonyms(deckname, html):
@@ -80,19 +79,18 @@ model_name = 'basic_reverse_extra_initial'
 
 def create_flashcards():
   for letter in list(string.ascii_uppercase):
-      path = '{0}/html/{1}'.format(path_base, letter)
+      path = 'html/{0}'.format(letter)
       files = [f for f in listdir(path) if isfile(join(path, f))]
 
       for file in files:
-          path = '{0}/html/{1}'.format(path_base, letter)
+          path = 'html/{0}'.format(letter)
           html = open('{0}/{1}'.format(path, file), 'r')
 
-          path = '{0}/videos/{1}'.format(path_base, letter)
+          path = 'videos/{0}'.format(letter)
           video_path = re.sub('html', 'mp4', '{0}/{1}'.format(path, file))
           video_filename = video_path.rsplit('/', 1)[-1]
 
-          '{0}/html/sign/{1}/{2}/{3}'.format(path_base, letter,
-            id, fingerspell)
+          'html/sign/{0}/{1}/{2}'.format(letter, id, fingerspell)
 
           tags = [ 'nonfiction::asl::vocabulary::{0}'.format(letter) ]
           for synonym in get_synonyms(deckname, html):
