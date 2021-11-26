@@ -1,5 +1,9 @@
+'''
+import string
+
 import requests
-from pysign__globals import ANKI_BASE
+
+letters = list(string.ascii_uppercase)
 
 def post(action, deck_name, model_name, front, extra,
   initial, source, tags, video_path, video_filename):
@@ -39,40 +43,12 @@ def post(action, deck_name, model_name, front, extra,
 
   return req
 
-'html/sign/{0}/{1}/{2}'.format(letter, id, variant_number)
-
-tags = [ 'nonfiction::asl::vocabulary::{0}'.format(letter) ]
 for synonym in get_synonyms(deckname, html):
   tags.append(synonym)
 
 req = post('addNote', deck_name, model_name, get_front_field(html),
   get_extra_field(html), get_initial(html), get_source(html, letter, id,
   variation), tags, video_path, video_filename)
-
-def get_variations(html):
-  soup = BeautifulSoup(html, 'html.parser')
-  desc.ul.findAll('li')[0].text.strip() 
-
-
-def get_front_field(html):
-  soup = BeautifulSoup(html, 'html.parser')
-  header = soup.find('div', { 'class' : 'signing_header' }) 
-  front = "{0} {1}".format(header.find('h2').text, header.find('h3').text)
-
-  variation = get_variations(html)
-
-  return front.strip()
-   
-def get_extra_field(html):
-  soup = BeautifulSoup(html, 'html.parser')
-  
-
-def get_video_link(html):
-    soup = BeautifulSoup(html, 'html.parser')
-    for link in soup.find_all('link'):
-        href = link.get('href')
-        if (href.startswith('media/') and href.endswith('mp4')):
-            return href
 
 deck_name = 'nonfiction::asl'
 model_name = 'basic_reverse_extra_initial'
@@ -101,3 +77,4 @@ def create_flashcards():
             id, fingerspell = True), tags, video_path, video_filename)
 
           print(req)
+'''
