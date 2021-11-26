@@ -1,5 +1,12 @@
-*.html
-*.mp4
 __pycache__
+.pytest_cache
 .env
+assets
+tests/assets
+sandbox.py
 
+# tests
+junit
+
+# sphinx build
+build
