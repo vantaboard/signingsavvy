@@ -13,12 +13,14 @@ py-bcrypt = "^0.4"
 windows-curses = "^2.3.0"
 Sphinx = "^4.3.0"
 renku-sphinx-theme = "^0.2.2"
+myst-parser = "^0.15.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"
 flake8 = "^4.0.1"
 pytest-cov = "^3.0.0"
 python-semantic-release = "^7.22.0"
+sphinx-autobuild = "^2021.3.14"
 
 [tool.semantic_release]
 version_variable = [
