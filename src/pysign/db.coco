@@ -1,0 +1,224 @@
+import curses
+import os
+import sqlite3
+import string
+import sys
+from curses import wrapper
+from getpass import getpass
+
+from bs4 import BeautifulSoup
+
+from pysign import api, format
+
+letters = string.ascii_uppercase |> list
+
+def authenticate():
+  return curses.initscr() |> fetch_creds
+
+def fetch_creds(stdscr):
+  stdscr.clear()
+  curses.echo()
+
+  (0, 0, "=== Authenticate yourself ===") |*> stdscr.addstr
+  (1, 0, "Email: ") |*> stdscr.addstr
+  
+  email = "utf-8" |> stdscr |> .decode |> .getstr
+  pw = "Password: " |> getpass$(?, None)
+
+  return (email, pw)
+
+def get_variations(action: str):
+  soup = (action, "html.parser") |> BeautifulSoup
+  descs = ("div", {"class": "desc"}) |> soup.findAll
+
+  for desc in descs:
+    header = "h5" |> desc |> .find |> .text
+    if (header == "Sign Variations for this Word"):
+      try {
+        return "li" |> desc.ul.findAll
+      } except (name_e, attr_e) as e {
+        e |> print
+        return null
+      }
+
+def get_other_variants(letters: str = letters):
+    for i in range(letters |> len):
+        letter = letters[i]
+
+        files = letter |> get_active_files
+        paths = []
+        for file in files:
+            file = file[-1]
+            1 |> file.append
+            (letter, file) |> get_html_path |> html_paths.append
+
+        html_paths = paths |> set |> list
+
+        for path in html_paths:
+          variations = path |> get_variations |> .[1:]
+
+          if not path |> os.path.exists:
+            for url in variations:
+              r = url |> c.get
+              links = r.text |> get_http_word_links
+
+              for link in links:
+                route = link |> get_route
+                print("Writing", file, "from route", route)
+
+                req = route |> c.get
+                file = file |> open |> .write(req.text) |> .close
+          else:
+            ("Skipping", file, "as it already exists") |> print
+
+
+def get_first_variants(letters: str = letters):
+  paths = letters |> get_http_word_links
+
+  for i in letters |> len:
+    path = paths[i]
+    letter = letters[i]
+
+    req = path |> c.get
+    links = req.text |> browse_word_links
+
+    for link in links:
+      file = f"html/{letter}/{link |> sign_href_to_file}.html"
+      if not file |> os.path.exists:
+        color = "light_green_2" |> fg
+        (color + f"Downloading {file}") |> print
+        file |> open |> .write(res.text) |> .close
+      else:
+        color = "light_yellow" |> fg
+        (color + f"Skipping {file} as it already exists." |> print
+
+
+def get_http_word_links(action: str):
+  links: list(str)
+
+  soup = (action, "html.parser") |*> BeautifulSoup
+  for link in "a" |> soup.find_all:
+    href = "href" |> link.get
+    if ("sentences/" |> href.startswith):
+      href |> links.append
+  return links
+
+
+def get_all_sentences():
+  route = "sentences/all" |> get_route
+  req = route |> c.get
+  links = req.text |> scrape_sentences
+
+  files = get_available_sentences()
+  paths: list(str)
+  for file in files:
+    (letter, file) |*> get_html_path |> html_paths.append
+
+  html_paths = paths |> set |> list
+
+  for path in html_paths:
+    variations = path |> get_variations |> .[1:]
+
+    if not os.path.exists(path):
+      for url in variations:
+        r = url |> c.get
+        links = r.text |> get_http_word_links
+
+        for link in links:
+          route = link |> get_route
+          f"Writing {file} from route {route}" |> print
+
+          req = route |> c.get
+          file |> open |> (req.text |> write) |> close
+    else:
+      f"Skipping {file} as it already exists" |> print
+
+
+paths = letters |> get_http_word_links
+
+for i in letters |> len:
+  path = paths[i]
+  letter = letters[i]
+
+  req = path |> .get
+  links = req.text |> browse_word_links
+
+  for link in links:
+    file = f"html/{letter}/{link |> sign_href_to_file}.html"
+    if not file |> os.path.exists:
+      color = "light_green_2" |> fg
+      (color + f"Downloading {file}") |> print
+
+      file |> .write(res.text) |> .close
+    else:
+      color = "light_yellow" |> fg
+      f"Skipping {file} as it already exists" |> print
+
+
+def connect(init: bool = False):
+  if not _globals.file.database |> os.path.exists and not init:
+    "Database not found." |> print
+    raise FileNotFoundError
+
+  con = _globals.file.database |> sqlite3.connect
+
+  f"{if con then "Succeeded" else "Failed"} to open database." |> print
+
+  return con
+
+def create_user(db_exec):
+  """ --sql
+  CREATE TABLE user (
+    id INTEGER NOT NULL PRIMARY KEY,
+    email TEXT NOT NULL,
+    pass TEXT NOT NULL
+  );
+  """ |> db_exec
+
+
+def create():
+  "Creating database..." |> print
+  con = True |> connect
+  db_exec = con |> .cursor |> .execute
+
+  # Create user
+
+  """
+  CREATE TABLE word(
+    word_id      INTEGER PRIMARY KEY, 
+    word_name    TEXT NOT NULL,
+    word_meaning TEXT,
+    word_example TEXT
+  );
+  """ |> db_exec
+
+  """
+  CREATE TABLE variant(
+    variant_id          INTEGER,
+    variant_type        TEXT,
+    variant_description TEXT, 
+    variant_mnemonic    TEXT, 
+    variant_tip         TEXT,
+    variant_word        INTEGER REFERENCES word
+  );
+
+  CREATE INDEX variant_index ON variant(variant_word);
+  """ |> db_exec
+
+  """
+  CREATE TABLE variant(
+    variant_id          INTEGER PRIMARY KEY,
+    variant_type        TEXT,
+    variant_description TEXT, 
+    variant_mnemonic    TEXT, 
+    variant_tip         TEXT,
+    variant_word        INTEGER REFERENCES word
+  );
+
+  CREATE INDEX variant_index ON variant(variant_word);
+  """ |> db_exec
+
+  (email, pw) = authenticate()
+  "INSERT INTO user (email, pass) VALUES ('{email}', '{pw}')" |> db_exec
+
+  con |> .commit |> .close

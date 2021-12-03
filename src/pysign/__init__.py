@@ -1,3 +1,5 @@
+__path__ = __import__("pkgutil").extend_path(__path__, __name__)  # type: ignore[has-type]
+
 """This module demonstrates basic Sphinx usage with Python modules.
 
 Submodules
@@ -11,10 +13,3 @@ Submodules
     format
     start
 """
-
-from .anki import *
-from .api import *
-from .format import *
-from .start import *
-
-__version__ = '0.0.1'
