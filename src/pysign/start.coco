@@ -1,19 +1,30 @@
-import os
-import string
+from string import ascii_uppercase as letters
+from pathlib import Path
+from os import makedirs
 
-letters = list(string.ascii_uppercase)
+def make_dirs() -> None:
+  """Makes directories for pysign to use.
 
-def make_asset_dirs():
+  :return: no value
+  :rtype: none
+  """
+
+  # Create directories and handle file exists error.
   try:
-    os.makedirs(path.database)
-    os.makedirs(path.video_sentences)
-    
-    for letter in letters:
-      os.makedirs(path.video_vocabulary / letter)
+    "./db" |> Path |> makedirs
+    "./assets/videos/words" |> Path |> makedirs
+    "./assets/videos/sentences" |> Path |> makedirs
+    "./assets/html/articles" |> Path |> makedirs
   except FileExistsError:
-    print('Warning: Some or all asset paths already exist.')
+    "Warning: Some or all asset paths already exist." |> print
   except:
-    print('An unknown error has occurred.')
+    "An unknown error has occurred." |> print
 
-def make():
-  make_asset_dirs()
+def make() -> None:
+  """Calls other functions involved in starting pysign.
+
+  :return: no value
+  :rtype: none
+  """
+
+  make_dirs()

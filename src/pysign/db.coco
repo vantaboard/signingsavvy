@@ -1,224 +1,178 @@
 import curses
-import os
-import sqlite3
-import string
-import sys
-from curses import wrapper
+from os import path
+from sqlalchemy import create_engine, Table, Column,
+                       Integer, String, MetaData
 from getpass import getpass
 
-from bs4 import BeautifulSoup
+def authenticate() -> Tuple[str, str]:
+  """Authenticates a user through a call to fetch_creds.
 
-from pysign import api, format
+  :return: Email and password from fetch_creds
+  :rtype: Tuple[str, str]
+  """
 
-letters = string.ascii_uppercase |> list
-
-def authenticate():
   return curses.initscr() |> fetch_creds
 
-def fetch_creds(stdscr):
+def fetch_creds(stdscr) -> Tuple[str, str]:
+  """Fetches user credentials.
+
+  Makes use of the curses package for console interaction.
+
+  :param stdscr: window object representing the entire screen
+  :return: email address and password
+  :rtype: Tuple[str, str]
+  """
+
+  # Clear the window and allow echoing
   stdscr.clear()
   curses.echo()
 
+  # Prompt the user for their email address and password
   (0, 0, "=== Authenticate yourself ===") |*> stdscr.addstr
   (1, 0, "Email: ") |*> stdscr.addstr
-  
   email = "utf-8" |> stdscr |> .decode |> .getstr
   pw = "Password: " |> getpass$(?, None)
 
   return (email, pw)
 
-def get_variations(action: str):
-  soup = (action, "html.parser") |> BeautifulSoup
-  descs = ("div", {"class": "desc"}) |> soup.findAll
 
-  for desc in descs:
-    header = "h5" |> desc |> .find |> .text
-    if (header == "Sign Variations for this Word"):
-      try {
-        return "li" |> desc.ul.findAll
-      } except (name_e, attr_e) as e {
-        e |> print
-        return null
-      }
+def connect():
+  """Initiate a connection to the SQLite database with SQLAlchemy.
 
-def get_other_variants(letters: str = letters):
-    for i in range(letters |> len):
-        letter = letters[i]
+  :return: sqlalchemy database engine linked to the pysign db file or null
+  """
 
-        files = letter |> get_active_files
-        paths = []
-        for file in files:
-            file = file[-1]
-            1 |> file.append
-            (letter, file) |> get_html_path |> html_paths.append
+  # Absolute path hack to get SQLAlchemy to create the engine
+  if "../db/pysign.db3" |> path |> .abspath |> .exists:
+    engine = f"sqlite:///{db_dir}" |> create_engine$(?, future=True)
 
-        html_paths = paths |> set |> list
+  return engine
 
-        for path in html_paths:
-          variations = path |> get_variations |> .[1:]
+def create_user(meta) -> Table:
+  """Creates a user table using SQLAlchemy.
 
-          if not path |> os.path.exists:
-            for url in variations:
-              r = url |> c.get
-              links = r.text |> get_http_word_links
+  columns:
+  id: user id
+  email: email address
+  password: password
 
-              for link in links:
-                route = link |> get_route
-                print("Writing", file, "from route", route)
+  :param meta: reference to database engine
+  :type meta: Metadata
+  :return: user data
+  :rtype: Table
+  """
 
-                req = route |> c.get
-                file = file |> open |> .write(req.text) |> .close
-          else:
-            ("Skipping", file, "as it already exists") |> print
+  return Table("user", meta,
+    "id" |> Column$(?, Integer, primary_key=True),
+    "email" |> Column$(?, String, nullable=False),
+    "pass" |> Column$(?, String, nullable=False),
+  )
 
 
-def get_first_variants(letters: str = letters):
-  paths = letters |> get_http_word_links
+def create_words(meta) -> Table:
+  """Creates a words table using SQLAlchemy.
 
-  for i in letters |> len:
-    path = paths[i]
-    letter = letters[i]
+  columns:
+  id: id used in remote uri
+  synonymid: id for synonyms
+  name: word name
+  definition: word definition
+  usage: example of word use
 
-    req = path |> c.get
-    links = req.text |> browse_word_links
+  :param meta: reference to database engine
+  :type meta: Metadata
+  :return: word data
+  :rtype: Table
+  """
 
-    for link in links:
-      file = f"html/{letter}/{link |> sign_href_to_file}.html"
-      if not file |> os.path.exists:
-        color = "light_green_2" |> fg
-        (color + f"Downloading {file}") |> print
-        file |> open |> .write(res.text) |> .close
-      else:
-        color = "light_yellow" |> fg
-        (color + f"Skipping {file} as it already exists." |> print
-
-
-def get_http_word_links(action: str):
-  links: list(str)
-
-  soup = (action, "html.parser") |*> BeautifulSoup
-  for link in "a" |> soup.find_all:
-    href = "href" |> link.get
-    if ("sentences/" |> href.startswith):
-      href |> links.append
-  return links
+  return Table("words", meta,
+    "id" |> Column$(?, Integer, primary_key=True),
+    "synonymid" |> Column$(?, Integer),
+    "name" |> Column$(?, String, nullable=False),
+    "definition" |> Column$(?, String),
+    "usage" |> Column$(?, String),
+  )
 
 
-def get_all_sentences():
-  route = "sentences/all" |> get_route
-  req = route |> c.get
-  links = req.text |> scrape_sentences
+def create_variants(meta) -> Table:
+  """Creates a variants table using SQLAlchemy.
 
-  files = get_available_sentences()
-  paths: list(str)
-  for file in files:
-    (letter, file) |*> get_html_path |> html_paths.append
+  columns:
+  id: variant id
+  html: remote uri for word variant
+  vidld: remote uri for 360p video
+  vidsd: remote uri for 540p video
+  vidhd: remote uri for 720p video
+  index: index used in remote uri
+  type: sign type
+  desc: variant description
+  tip: combined mnemonic and notice
+  word: reference to word parent
 
-  html_paths = paths |> set |> list
+  :param meta: reference to database engine
+  :type meta: Metadata
+  :return: word data
+  :rtype: Table
+  """
 
-  for path in html_paths:
-    variations = path |> get_variations |> .[1:]
-
-    if not os.path.exists(path):
-      for url in variations:
-        r = url |> c.get
-        links = r.text |> get_http_word_links
-
-        for link in links:
-          route = link |> get_route
-          f"Writing {file} from route {route}" |> print
-
-          req = route |> c.get
-          file |> open |> (req.text |> write) |> close
-    else:
-      f"Skipping {file} as it already exists" |> print
-
-
-paths = letters |> get_http_word_links
-
-for i in letters |> len:
-  path = paths[i]
-  letter = letters[i]
-
-  req = path |> .get
-  links = req.text |> browse_word_links
-
-  for link in links:
-    file = f"html/{letter}/{link |> sign_href_to_file}.html"
-    if not file |> os.path.exists:
-      color = "light_green_2" |> fg
-      (color + f"Downloading {file}") |> print
-
-      file |> .write(res.text) |> .close
-    else:
-      color = "light_yellow" |> fg
-      f"Skipping {file} as it already exists" |> print
+  return Table("variants", meta,
+    "id" |> Column$(?, Integer, primary_key=True),
+    "html" |> Column$(?, String, nullable=False),
+    "vidld" |> Column$(?, String, nullable=False),
+    "vidsd" |> Column$(?, String, nullable=False),
+    "vidhd" |> Column$(?, String, nullable=False),
+    "index" |> Column$(?, Integer),
+    "type" |> Column$(?, String),
+    "desc" |> Column$(?, String),
+    "tip" |> Column$(?, String),
+    "word" |> Column$(?, Integer),
+    (""ord", "words.id") |*> ForeignKeyConstraint
+  )
 
 
-def connect(init: bool = False):
-  if not _globals.file.database |> os.path.exists and not init:
-    "Database not found." |> print
-    raise FileNotFoundError
+def create_wordlists(meta, names: List[str]) -> List[Table]:
+  """Creates a wordlists table using SQLAlchemy.
 
-  con = _globals.file.database |> sqlite3.connect
+  columns:
+  id: list id
+  name: list name
+  word: reference to word
 
-  f"{if con then "Succeeded" else "Failed"} to open database." |> print
+  :param meta: reference to database engine
+  :type meta: Metadata
+  :param names: word list names
+  :type names: List[str]
+  :return: array of wordlist tables
+  :rtype: List[Table]
+  """
 
-  return con
+  wordlists: List[str]
+  for name in names:
+    Table(name, meta,
+      "id" |> Column$(?, Integer, primary_key=True),
+      "name" |> Column$(?, String),
+      ("word", "words.id") |*> ForeignKeyConstraint
+    ) |> wordlists.append
 
-def create_user(db_exec):
-  """ --sql
-  CREATE TABLE user (
-    id INTEGER NOT NULL PRIMARY KEY,
-    email TEXT NOT NULL,
-    pass TEXT NOT NULL
-  );
-  """ |> db_exec
+    return wordlists
 
 
-def create():
+def create(engine) -> None:
+  """Creates a database for use with pysign.
+
+  :param engine: database engine
+  :return: no value
+  :rtype: none
+  """
+
   "Creating database..." |> print
-  con = True |> connect
-  db_exec = con |> .cursor |> .execute
+  meta = MetaData()
 
-  # Create user
+  # Create tables for database
+  user = create_user <| meta
+  words = create_words <| meta
+  variants = create_variants <| meta
+  wordlists = create_wordlists <*| (meta, remote.get_wordlists())
 
-  """
-  CREATE TABLE word(
-    word_id      INTEGER PRIMARY KEY, 
-    word_name    TEXT NOT NULL,
-    word_meaning TEXT,
-    word_example TEXT
-  );
-  """ |> db_exec
-
-  """
-  CREATE TABLE variant(
-    variant_id          INTEGER,
-    variant_type        TEXT,
-    variant_description TEXT, 
-    variant_mnemonic    TEXT, 
-    variant_tip         TEXT,
-    variant_word        INTEGER REFERENCES word
-  );
-
-  CREATE INDEX variant_index ON variant(variant_word);
-  """ |> db_exec
-
-  """
-  CREATE TABLE variant(
-    variant_id          INTEGER PRIMARY KEY,
-    variant_type        TEXT,
-    variant_description TEXT, 
-    variant_mnemonic    TEXT, 
-    variant_tip         TEXT,
-    variant_word        INTEGER REFERENCES word
-  );
-
-  CREATE INDEX variant_index ON variant(variant_word);
-  """ |> db_exec
-
-  (email, pw) = authenticate()
-  "INSERT INTO user (email, pass) VALUES ('{email}', '{pw}')" |> db_exec
-
-  con |> .commit |> .close
+  # Save database construction
+  engine |> meta.create_all

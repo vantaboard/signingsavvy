@@ -8,8 +8,6 @@ Submodules
 .. autosummary::
     :toctree: _autosummary
 
-    anki
-    api
-    format
+    db
     start
 """
