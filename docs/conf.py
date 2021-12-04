@@ -3,21 +3,21 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath('../src'))
+sys.path.insert(0, os.path.abspath("../src"))
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'pysign'
-copyright = '2021, Brighten Tompkins'
-author = 'Brighten Tompkins'
+project = "pysign"
+copyright = "2021, Brighten Tompkins"
+author = "Brighten Tompkins"
 
 
 # -- General configuration ---------------------------------------------------
 
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.autosummary', 'myst-parser']
+extensions = ["sphinx.ext.autodoc", "sphinx.ext.autosummary", "myst-parser"]
 
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 exclude_patterns = []
 
@@ -31,4 +31,4 @@ autodoc_default_options = {
 
 # -- Options for HTML output -------------------------------------------------
 
-html_theme = 'renku'
+html_theme = "renku"

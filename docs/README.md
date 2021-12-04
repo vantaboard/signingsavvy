@@ -1,8 +1,8 @@
-<h1 align="center">pySign</h1>
+<h1 align="center">pysign</h1>
 
 <div align="center">
 
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/blackboardd/yarn-project-template/blob/main/LICENSE) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) [![Follow on Twitter](https://img.shields.io/twitter/follow/blkboardd.svg?label=follow+blkboardd)](https://twitter.com/blkboardd)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?style=flat-square&logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/blackboardd/magui/blob/main/LICENSE) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg?style=flat-square)](https://conventionalcommits.org) [![.github/workflows/ci.yml](https://github.com/blackboardd/pysign/actions/workflows/ci.yml/badge.svg)](https://github.com/blackboardd/pysign/actions/workflows/ci.yml)  [![Follow on Twitter](https://img.shields.io/twitter/follow/blkboardd.svg?label=follow+blkboardd)](https://twitter.com/blkboardd)
 
 </div>
 
@@ -11,11 +11,6 @@
 - API Wrapper
 - Support for updates
 - Database control
-
-## 🧱 Stack
-
-- [Python <img src=".github/images/icons/python/favicon.ico" alt="python" height="10"/>](https://github.com/python)
-- [BeautifulSoup 🍲](https://code.launchpad.net/~leonardr/beautifulsoup/bs4)
 
 ## Changelog
 

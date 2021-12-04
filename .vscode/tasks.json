@@ -2,24 +2,6 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "gh: update icons",
-      "type": "shell",
-      "command": "cd .github/scripts && ./update_icons.ps1",
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      }
-    },
-    {
-      "label": "pytest",
-      "type": "shell",
-      "command": "python -m poetry run python -m pytest -v tests --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html",
-      "group": {
-        "kind": "test",
-        "isDefault": true
-      }
-    },
-    {
       "label": "install dependencies",
       "type": "shell",
       "command": "poetry install",
@@ -29,9 +11,9 @@
       }
     },
     {
-      "label": "linter",
+      "label": "compile-format-docs",
       "type": "shell",
-      "command": "flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics && flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics",
+      "command": "python -m poetry run coconut --minify src/pysign && python -m poetry run black src && sphinx-build -b html src docs/_build",
       "group": {
         "kind": "build",
         "isDefault": true

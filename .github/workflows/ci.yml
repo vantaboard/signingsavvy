@@ -1,0 +1,131 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  compile-format-docs:
+    if: "!startsWith(github.event.head_commit.message, 'bump:')"
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9"]
+        poetry-version: [1.1.11]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Load cached Poetry installation
+        uses: actions/cache@v2
+        with:
+          path: ~/.local
+          key: poetry-0
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+          installer-parallel: true
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --no-interaction --no-root
+      - name: Install library
+        run: poetry install --no-interaction
+      - name: Compile coconut source
+        run: poetry run coconut --minify src/pysign
+      - name: Format with black
+        run: poetry run black src
+      - name: Build docs
+        run: |
+          pip install sphinx
+          poetry run sphinx-build -b html src docs/_build
+      - uses: actions/upload-artifact@v1
+        with:
+          name: DocHTML
+          path: docs/_build
+      - name: Clone old gh-pages
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          set -x
+          git fetch
+          ( git branch gh-pages remotes/origin/gh-pages && git clone . --branch=gh-pages _gh-pages/ ) || mkdir _gh-pages
+          rm -rf _gh-pages/.git/
+          mkdir -p _gh-pages/branch/
+      - name: Copy new build (default branch)
+        if: |
+          contains(github.event_name, 'push') &&
+          contains(github.ref, env.DEFAULT_BRANCH)
+        run: |
+          set -x
+          find _gh-pages/ -mindepth 1 ! -path '_gh-pages/branch*' -delete
+          rsync -a docs/_build/* _gh-pages
+      - name: Copy new build (branch)
+        if: |
+          contains(github.event_name, 'push') &&
+          !contains(github.ref, env.DEFAULT_BRANCH)
+        run: |
+          set -x
+          brname="${{github.ref}}"
+          brname="${brname##refs/heads/}"
+          brdir=${brname//\//--}
+          rm -rf   _gh-pages/branch/${brdir}
+          rsync -a docs/_build/* _gh-pages/branch/${brdir}
+      - name: Delete old feature branches
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          set -x
+          for brdir in `ls _gh-pages/branch/` ; do
+              brname=${brdir//--/\/}
+              if ! git show-ref remotes/origin/$brname ; then
+                  echo "Removing $brdir"
+                  rm -r _gh-pages/branch/$brdir/
+              fi
+          done
+      - name: nojekyll
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          touch _gh-pages/.nojekyll
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.event_name == 'push' }}
+        with:
+          publish_branch: gh-pages
+          github_token: ${{ secrets.GH_TOKEN }}
+          publish_dir: _gh-pages/
+          force_orphan: true
+
+  bump:
+    needs: compile-format-docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          token: "${{ secrets.GH_TOKEN }}"
+      - id: cz
+        name: Create bump and changelog
+        uses: commitizen-tools/commitizen-action@master
+        with:
+          branch: main
+          github_token: ${{ secrets.GH_TOKEN }}
+          changelog_increment_filename: docs/changelog.md
+      - name: Print Version
+        run: echo "Bumped to version ${{ steps.cz.outputs.version }}"
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body_path: "docs/changelog.md"
+          tag_name: ${{ env.REVISION }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
