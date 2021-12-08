@@ -1,8 +1,28 @@
-import curses
+try:
+    import curses
+except ImportError:
+    console
+
 from os import path
 from sqlalchemy import create_engine, Table, Column,
                        Integer, String, MetaData
+from datetime import datetime
+
+from sqlalchemy import and_
+from sqlalchemy import Column
+from sqlalchemy import create_engine
+from sqlalchemy import DateTime
+from sqlalchemy import Float
+from sqlalchemy import ForeignKey
+from sqlalchemy import Integer
+from sqlalchemy import String
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
+from sqlalchemy.orm import Session
+
 from getpass import getpass
+
+base = declarative_base()
 
 def authenticate() -> Tuple[str, str]:
   """Authenticates a user through a call to fetch_creds.
@@ -47,6 +67,28 @@ def connect():
     engine = f"sqlite:///{db_dir}" |> create_engine$(?, future=True)
 
   return engine
+
+class User(Base):
+  """Creates a user table using SQLAlchemy.
+
+  columns:
+  id: user id
+  email: email address
+  password: password
+
+  :param meta: reference to database engine
+  :type meta: Metadata
+  :return: user data
+  """
+  __tablename__ = "user"
+
+  user_id = Column(Integer, primary_key=True)
+  user_email = Column(String, nullable=False)
+  user_pass = Column(String, nullable=False)
+
+  def __init__(self, user_email, user_pass):
+    self.user_email = user_email
+    self.user_pass = user_pass
 
 def create_user(meta) -> Table:
   """Creates a user table using SQLAlchemy.
