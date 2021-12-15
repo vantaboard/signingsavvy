@@ -1,3 +1,5 @@
+"""This module is used for connecting to and creating the database for pySign"""
+
 try:
     import curses
 except ImportError:
@@ -131,16 +133,16 @@ class Word(Base):
   Args:
     word_id (number): ID used in remote URI.
     synoynm_id (number): ID for synonyms.
-    name (str): Word name.
-    definition (str): Word definition.
-    usage (str): Example of word use.
+    word_name (str): Word name.
+    word_definition (str): Word definition.
+    word_usage (str): Example of word use.
 
   Attributes:
     word_id (number): ID used in remote URI.
     synoynm_id (number): ID for synonyms.
-    name (str): Word name.
-    definition (str): Word definition.
-    usage (str): Example of word use.
+    word_name (str): Word name.
+    word_definition (str): Word definition.
+    word_usage (str): Example of word use.
 
   """
 
@@ -148,9 +150,9 @@ class Word(Base):
 
   word_id = Column(Integer, primary_key=True)
   synoynm_id = Column(Integer, nullable=False)
-  name = Column(String, nullable=False)
-  definition = Column(String, nullable=False)
-  usage = Column(String)
+  word_name = Column(String, nullable=False)
+  word_definition = Column(String, nullable=False)
+  word_usage = Column(String)
 
 
   def __init__(self, word_id, synonym_id, name, definition, usage):
@@ -363,7 +365,7 @@ def connect():
   return engine
 
 
-def create(engine) -> Session:
+def create_session(engine) -> Session:
   """Creates a database for use with `pysign`.
 
   Returns:
@@ -378,3 +380,9 @@ def create(engine) -> Session:
 
   return session
 
+def create_all(session: Session) -> None:
+  """Uses a Session to create all of the data needed to fill the database.
+
+  """
+
+  
