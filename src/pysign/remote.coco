@@ -6,6 +6,7 @@ to act as an API for SigningSavvy.
 """
 
 from bs4 import BeautifulSoup as soup
+import bs4
 import logging
 
 from sqlalchemy.orm import Session as SQLSession
@@ -73,14 +74,14 @@ def getHTML(uri: str):
     uri: URI to request from.
 
   Returns:
-    html: The parsed HTML from the response text.
+    html (bs4.BeautifulSoup): The parsed HTML from the response text.
 
   """
 
   f"Getting HTML from {uri}" |> logging.info
 
   r = base / uri |> s.get
-  html = r.text |> soup$(?, "html.parser")
+  html: bs4.BeautifulSoup = r.text |> soup$(?, "html.parser")
   document.querySelectorAll("div.desc")[0].innerHTML.match("being signed")
 
   return html
@@ -96,16 +97,16 @@ def getHrefs(uri: str, query: str):
 
   """
 
-  html = uri |> getHTML
+  html: bs4.BeautifulSoup = uri |> getHTML
 
   f"Using the {query} query on HTML." |> logging.info
 
-  hrefs = (query |> html.find_all) |> map$(? |> .href)
+  hrefs = (query |> html.select) |> map$(? |> .href)
 
   return hrefs
 
 
-def createWord(html: str, uri: str):
+def createFromWord(html: bs4.BeautifulSoup, uri: str):
   """Create a word through its insertion into the database.
 
   Args:
@@ -126,16 +127,26 @@ def createWord(html: str, uri: str):
   f"Working off HTML data from the {uri} for VALUES of insertion."
     |> logging.info
 
-  detail = Detail("div#tab-details" |> html.find_all)
-  word_name = "fa-pencil" |> detail.getDetail
-  word_usage = "fa-film" |> detail.getDetail
-  synonyms = "fa-tags" |> detail.getDetail
+  detail = Detail("div#tab-details" |> html.select)
+  word_name: str = "fa-pencil" |> detail.getDetail
+  word_usage: str = map(tag -> tag.text,
+    ".fa-film + div" |> tab_details.select)
+    |> re.sub$(r"Watch ASL Sentence +\n", "", ?)
+  synonym_id: str = map(tag -> tag.text,
+    ".fa-tags + div>ul>li" |> tab_details.select)
+    |> reduce$(+)
+    |> re.sub$(r"[^\w]*", "", ?)
+    |> str.upper
+    |> .encode("utf-8")
+    |> base64.b64encode
+    |> .decode("utf-8")
 
-  variants = (".fa-cubes + div>ul>li>a" |> tab_details.find_all |> .length) - 1
+  variants_length: number
+    = (".fa-cubes + div>ul>li>a" |> tab_details.select |> .length) - 1
 
-  for index in range(variants):
+  for index in range(variants_length):
     uri_without_variant = uri |> .$[-1]
-    video_uri = ".videocontent>link" |> html.find |> .href
+    video_uri = ".videocontent>link" |> html.select |> .$[0] |> .href
 
     video_file_re = r"(?!\/)\d+(?=[\/.])" |> re.search$(?, video_uri)
     video_group, video_id = word_id_re.group |> .$[0:1] 
@@ -145,15 +156,24 @@ def createWord(html: str, uri: str):
     variant_vidsd = base / "media" / "mp4-sd" / f"{video_file_partial}.mp4"
     variant_vidhd = base / "media" / "mp4-hd" / f"{video_file_partial}.mp4"
     
-    variant_type = detail.getDetail("fa-hand-paper-o")
-    variant_desc = detail.getDetail("fa-info-circle")
-    variant_aid = detail.getDetail("icon-eyeglasses")
-    variant_notice = detail.getDetail("fa-exclamation-triangle")
-    variant_tip = f"{variant_aid}\n{variant_notice}"
+    variant_type: str = detail.getDetail("fa-hand-paper-o")
+    variant_desc: str = detail.getDetail("fa-info-circle")
+    variant_aid: str = detail.getDetail("icon-eyeglasses")
+    variant_notice: str = detail.getDetail("fa-exclamation-triangle")
+    variant_tip: str = f"{variant_aid}\n{variant_notice}"
 
     uri = "{uri_without_variant}{index + 1}"
-    html = uri |> getHTML
-    detail = Detail(html.find_all("div#tab-details"))
+    html: bs4.BeautifulSoup = uri |> getHTML
+    detail = Detail(html.select("div#tab-details"))
+
+    insertVariant(uri, variant_vidld, variant_vidsd, variant_vidhd,
+      index, variant_type variant_desc, variant_tip, word_id)
+
+  insertWord(word_id, synonym_id, word_name, word_definition, word_usage)
+
+
+def insertVariant():
+  
 
 
 class Detail():
@@ -163,7 +183,9 @@ class Detail():
     self.tabDetails = html
 
   def getDetail(icon: str):
-    return self.tab_details.find(f".{icon} + div>p").innerText ?? ""
+    return (f".{icon} + div>p"
+      |> self.tab_details.select)
+      |> tag -> tag.innerText ?? ""
 
 
 def getWords():
@@ -175,5 +197,5 @@ def getWords():
     wordHrefs = (href, "div.search_results>ul>li>a") |*> getHrefs
 
     for href in wordHrefs:
-      link |> createWord
+      link |> createFromWord
 
