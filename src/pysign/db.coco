@@ -99,34 +99,6 @@ class User(Base):
     self.user_pass = user_pass
 
 
-class URI(Base):
-  """Creates an location table using SQLAlchemy.
-
-  Notes:
-    Contains the uniform resource identifier for the content.
-
-  Args:
-    location_name (str): Location name.
-    location_uri (str): Remote URI for the location.
-
-  Attributes:
-    location_name (str): Location name.
-    location_uri (str): Remote URI for the location.
-
-  """
-
-  __tablename__ = "uri"
-
-  location_id = Column(Integer, primary_key=True)
-  location_name = Column(String)
-  location_uri = Column(String)
-
-
-  def __init__(self, location_name, location_uri):
-    self.location_name = location_name
-    self.location_uri = location_uri
-
-
 class Word(Base):
   """Creates a word table using SQLAlchemy.
 
