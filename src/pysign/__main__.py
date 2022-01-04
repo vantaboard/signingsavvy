@@ -5,11 +5,10 @@ from logging import basicConfig
 if __name__ == "__main__":
   from poetry.console.application import main
 
-  level = (logging, loglevel.upper(), None) |*> getattr
-  if not (level, int) |*> isinstance:
-      raise f"Bad log level: {level}" |> ValueError
+  level = getattr(logging, loglevel.upper(), None)
+  if not isinstance(level, int):
+      raise ValueError(f"Bad log level: {level}")
 
-  basicConfig(?, encoding="utf-8", level=level) <| "../logs/pysign.log"
+  basicConfig("../logs/pysign.log", encoding="utf-8", level=level)
 
-  main() |> exit
-
+  exit(main())
