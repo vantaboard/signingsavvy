@@ -12,4 +12,3 @@ if __name__ == "__main__":
   basicConfig("../logs/pysign.log", encoding="utf-8", level=level)
 
   exit(main())
-
