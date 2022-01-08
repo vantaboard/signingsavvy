@@ -126,6 +126,7 @@ class Sentence:
     """Creates a sentence data class as an interface.
 
     Args:
+        sentence_id (int): ID for the sentence.
         category (str): Category of the sentence.
         sentence (str): Sentence.
         sentence_vidld (str): Remote URI for 360p video.
@@ -133,6 +134,7 @@ class Sentence:
         sentence_vidhd (str): Remote URI for 720p video.
 
     Attributes:
+        sentence_id (int): ID for the sentence.
         category (str): Category of the sentence.
         sentence (str): Sentence.
         sentence_vidld (str): Remote URI for 360p video.
@@ -141,6 +143,7 @@ class Sentence:
 
     """
 
+    sentence_id: int
     category: str
     sentence: str
     sentence_vidld: str
@@ -148,10 +151,15 @@ class Sentence:
     sentence_vidhd: str
 
     def __init__(
-        self, category, sentence,
-        sentence_vidld, sentence_vidsd,
-        sentence_vidhd
+        self,
+        sentence_id,
+        category,
+        sentence,
+        sentence_vidld,
+        sentence_vidsd,
+        sentence_vidhd,
     ):
+        self.sentence_id = sentence_id
         self.category = category
         self.sentence = sentence
         self.sentence_vidld = sentence_vidld

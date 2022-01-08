@@ -1,0 +1,19 @@
+{
+  "id": 4882,
+  "value": "Hello, how are you?",
+  "glossary": [
+    {
+      "id": 4943,
+      "name": "Hi"
+    },
+    {
+      "id": 202,
+      "name": "How"
+    },
+    {
+      "id": 500,
+      "name": "You"
+    }
+  ],
+  "video": "20/20636.mp4"
+}

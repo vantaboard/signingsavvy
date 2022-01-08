@@ -1,5 +1,18 @@
-from pathlib import Path
+import logging
+
+from logging import basicConfig
 from os import makedirs
+from pathlib import Path
+
+
+basicConfig(
+    filename="../../logs/pysign.log",
+    format="[%(asctime)s] {%(pathname)s:%(lineno)d} \
+%(levelname)s - %(message)s",
+    datefmt="%H:%M:%S",
+    encoding="utf-8",
+    level=logging.INFO,
+)
 
 
 def make_dirs() -> None:
