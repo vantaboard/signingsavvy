@@ -2,7 +2,7 @@
   "id": 4943,
   "name": "Hello",
   "like": "a greeting",
-  "synonym": [
+  "synonyms": [
     {
       "id": 10780,
       "name": "Hi",
@@ -16,12 +16,10 @@
       "aid": "Think of a military salute.",
       "usage": [
         {
-          "id": "4882",
           "english": "Hello, how are you?",
           "asl": "Hi. How you?"
         },
         {
-          "id": "6714",
           "english": "Hello, Brad. Nice to meet you again.",
           "asl": "Hello B-r-a-d. Nice to meet you again."
         }

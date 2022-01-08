@@ -1,27 +1,21 @@
-"""Module for connecting to the remote server
-
-This module is used for attaching a connection
-to act as an API for SigningSavvy.
-
-"""
-
-import base64
+import json
 import logging
 import re
 
-from pathlib import Path
-from typing import Any
-
-import requests
-
 from logging import basicConfig
-from bs4 import BeautifulSoup as soup
-from requests import Session as rSession
-from sqlalchemy import select
-from sqlalchemy.orm import Session as SQLSession
+from pathlib import Path
 
-from pysign import db
-from pysign import interfaces
+from bs4 import BeautifulSoup as soup
+from flask import Flask
+from requests import Session
+
+from pysign.types import VideoQuality
+
+
+s = Session()
+
+
+app = Flask(__name__)
 
 
 basicConfig(
@@ -35,60 +29,6 @@ basicConfig(
 
 
 base = Path("https://www.signingsavvy.com")
-
-
-def getPayload(sqls: SQLSession) -> dict:
-    """Gets payload headers for the request session.
-
-    Args:
-        sqls: SQLSession for querying the database.
-
-    Attributes:
-        Email address and password.
-
-    Returns:
-        Dictionary containing header data.
-
-    """
-
-    logging.info("Fetching payload from database.")
-
-    email = sqls.execute(select(db.User.user_email))
-    pw = sqls.execute(select(db.User.user_pass))
-
-    return {
-        "action": "login",
-        "username": email,
-        "password": pw,
-        "login": 1,
-        "search": "",
-        "find": 1,
-    }
-
-
-def connect() -> rSession:
-    """Establishes a connection to SigningSavvy.
-
-    Note:
-    A request session is used to keep login information
-    valid across multiple requests.
-
-    Returns:
-    session: Request session object with payload headers.
-
-    """
-
-    logging.info("Setting up request session...")
-
-    engine = db.connect()
-    session = requests.Session()
-    payload = getPayload(db.create_session(engine))
-    session.headers.update(payload)
-
-    return session
-
-
-s = connect()
 
 
 def getHTML(uri: str):
@@ -110,336 +50,112 @@ def getHTML(uri: str):
     return html
 
 
-def getHrefs(uri: str, query: str, base: bool = True):
-    """Generalized function for getting links.
-
-    Args:
-        query: HTML query to select links.
-
-    Returns:
-        links: Links specific to those being looked for.
-
-    """
-
-    html = getHTML(str(base / uri) if base else uri)
-
-    logging.info(f"Using the {query} query on HTML.")
-
-    links = html.find_all(query)
-
-    hrefs = []
-    for link in links:
-        hrefs.append(link.href)
-
-    return hrefs
-
-
-def getIdFromURI(uri: str):
+def IdFromURI(uri: str):
     regex = re.findall(r"\d+(?=\/)(?<!\/)", uri)
     return regex[0]
 
 
-def getArticleAuthor(html: soup):
-    query = html.select(".blog-author")[0]
-    formatted = re.sub(r"^BY\s", "", query).title()
-
-    return formatted
-
-
-def getArticleDate(html: soup):
-    query = html.select(".blog-author-intro>p")[0].innerText
-    regex = re.findall(r"(?!=\n).+", query)
-    return regex[1]
+@app.route("/search/<sign>")
+def search_api(sign: str):
+    f = open("../tests/json/sign/4943_full_member.json")
+    return json.load(f)
 
 
-def getSynonymId(synonyms: str):
-    lower = synonyms.lower()
-    formatted = re.sub(r"[^\w]", "", lower)
-    bytesEncoded = str.encode(formatted)
-    return base64.b64encode(bytesEncoded).decode()
+def fetchTabText(html: soup, classCSS: str):
+    return html.select(f".{classCSS} + div>p")[0].innerText
 
 
-def addWord(word: interfaces.Word, sqls: SQLSession):
-    sqls.add_all(
-        [
-            db.Word(
-                word_id=word.id,
-                synonym_id=word.synonym_id,
-                word_name=word.name,
-                word_usage=word.usage,
-            )
-        ]
+def formatSignName(text: str):
+    return re.findall(r"\w+(?=\s)", text)[0].title()
+
+
+def formatSignLike(text: str):
+    return re.findall(r"(?<=as in \").+(?=\")", text)[0]
+
+
+def fetchSignSynonyms(html: soup):
+    synonyms = []
+
+    for _ in html.select(".fa-tags + div>ul>li>a"):
+        synonyms.append(
+            {
+                "id": IdFromURI(_.href),
+                "name": formatSignName(_.innerText),
+                "like": formatSignLike(_.innerText),
+            }
+        )
+
+    return synonyms
+
+
+def fetchSignUsage(html: soup):
+    usages = []
+
+    text = map(
+        lambda tag: tag.innerText, html.select(".fa-film + div>div>p")
     )
 
-    sqls.commit()
+    values = []
+    for i in range(text):
+        values.append(text[i])
+
+        if (i % 2 == 0):
+            usages.append({
+                "english": values[0],
+                "asl": values[1],
+            })
+
+            values = []
+
+    return usages
 
 
-def addVariant(variant: interfaces.Variant, sqls: SQLSession):
-    sqls.add_all(
-        [
-            db.Variant(
-                variant_uri=variant.uri,
-                variant_vidld=variant.vidld,
-                variant_vidsd=variant.vidsd,
-                variant_vidhd=variant.vidhd,
-                variant_index=variant.index,
-                variant_desc=variant.desc,
-                variant_tip=variant.tip,
-                word_id=variant.word_id,
-            )
-        ]
-    )
+def fetchSignVariants(html: soup, name, sign):
+    variants = []
 
-    sqls.commit()
+    variantLen = html.find_all(".fa-cubes + div>ul>li>a").length + 1
 
+    for i in range(variantLen):
+        with getHTML(str(base / "sign" / name / sign / i)) as _:
+            _type = fetchTabText(_, "fa-hand-paper-o")
+            desc = fetchTabText(_, "fa-info-circle")
+            aid = fetchTabText(_, "icon-eyeglasses")
+            usage = fetchSignUsage(_)
+            video = fetchSignVideo(_)
 
-def addWordListEntry(wordList: interfaces.WordList, sqls: SQLSession):
-    sqls.add_all(
-        [
-            db.WordList(
-                word_list_id=wordList._id,
-                word_list_name=wordList.name,
-                word_id=wordList.word_id,
-            )
-        ]
-    )
+        variants.append(
+            {
+                "type": _type,
+                "desc": desc,
+                "aid": aid,
+                "usage": usage,
+                "video": video,
+            }
+        )
 
-    sqls.commit()
+    return variants
 
 
-def addSentence(sentence: interfaces.Sentence, sqls: SQLSession):
-    sqls.add_all(
-        [
-            db.Sentence(
-                category=sentence.category,
-                sentence=sentence.sentence,
-                desc=sentence.desc,
-            )
-        ]
-    )
+@app.route("/sign/<sign>")
+def sign_api(sign):
+    with getHTML(str(base / "sign" / sign)) as _:
+        name = fetchTabText(_, "fa-pencil")
+        fname = formatSignName(name)
+        flike = formatSignLike(name)
+        synonyms = fetchSignSynonyms(_)
+        variants = fetchSignVariants(_, name, sign)
 
-    sqls.commit()
-
-
-def addArticle(article: interfaces.Article, sqls: SQLSession):
-    sqls.add_all(
-        [
-            db.Article(
-                article_id=article._id,
-                author_name=article.author_name,
-                date=article.date,
-                html=article.html,
-            )
-        ]
-    )
-
-    sqls.commit()
+    return {
+        "id": sign,
+        "name": fname,
+        "like": flike,
+        "synonyms": synonyms,
+        "variants": variants,
+    }
 
 
-class Detail:
-    def __init__(self, html):
-        self.tabDetails = html
-
-    def getDetail(self, icon: str, inner=">p"):
-        text = self.tabDetails.find(f".{icon} + div{inner}").innerText
-        return text if text else ""
-
-
-def getVideoLinks(html: soup):
+def getVideoLink(html: soup):
     uri = html.select(".videocontent>link")[0].href
     fileRegex = re.findall(r"(?!\/)\d+(?=[\/.])", str(uri))
     group, _id = fileRegex[0:1]
-    partial = f"{group}/{_id}"
-
-    ld = base / "media" / "mp4-ld" / f"{partial}.mp4"
-    sd = base / "media" / "mp4-sd" / f"{partial}.mp4"
-    hd = base / "media" / "mp4-hd" / f"{partial}.mp4"
-
-    return (ld, sd, hd)
-
-
-def createVariant(
-    uri: str,
-    html: soup,
-    _id: int,
-    detail: Detail,
-    sqls: SQLSession,
-    word_id: int,
-):
-    uri_no_variant = uri[-1]
-
-    vidld, vidsd, vidhd = getVideoLinks(html)
-
-    desc = detail.getDetail("fa-info-circle")
-    tip = f"""
-    {detail.getDetail("icon-eyeglasses")}\n
-    {detail.getDetail("fa-exclamation-triangle")}
-    """
-    uri = f"{uri_no_variant}{_id + 1}"
-
-    logging.info("Inserting variant {variant_id} into table...")
-    addVariant(
-        interfaces.Variant(_id, uri, vidld, vidsd, vidhd, desc, tip, word_id),
-        sqls,
-    )
-
-    html = getHTML(uri)
-
-
-def createWord(html: soup, uri: str, sqls: SQLSession):
-    """Create a word through its insertion into the database.
-
-    Args:
-    html: HTML to pull word data from.
-    uri: URI to pull additional word data from.
-
-    """
-
-    # Regex on URI for word id.
-    _id = getIdFromURI(uri)
-
-    # Parsing HTML with BeautifulSoup.
-    logging.info(
-        f"Working off HTML data from the \
-                {uri} for VALUES of insertion."
-    )
-
-    detail = Detail(html.find_all("div#tab-details"))
-
-    name = detail.getDetail("fa-pencil")
-    usage = detail.getDetail("fa-film")
-    synonyms = detail.getDetail("fa-tags", "")
-
-    addWord(interfaces.Word(_id, getSynonymId(synonyms), name, usage), sqls)
-
-    variants = detail.tabDetails.find_all(".fa-cubes + div>ul>li>a").length - 1
-
-    for index in range(variants):
-        createVariant(uri, html, index, detail, s, _id)
-
-
-def createWords():
-    logging.info("Getting words from SigningSavvy")
-
-    letterHrefs = getHrefs("search", "a.wlbutton")
-
-    for href in letterHrefs:
-        wordHrefs = getHrefs(href, "div.search_results>ul>li>a")
-
-        for href in wordHrefs:
-            createWord(href)
-
-
-def getWordListItemId(uri: str):
-    variantUris = getHrefs(uri, ".fa-cubes + div>ul>li>a", base=False)
-    return getIdFromURI(variantUris[0])
-
-
-def createWordLists():
-    logging.info("Getting word lists from SigningSavvy")
-
-    savvyHrefs = getHrefs("wordlist/savvy", ".mediumtext>a")
-
-    for href in savvyHrefs:
-        _id = getIdFromURI(href)
-
-        r = s.get(href)
-        html = soup(r.text, "html.parser")
-        createSavvyWordList(html.select(".browselist-alphabetical"), _id, s)
-
-    memberHrefs = getHrefs("wordlist/shared", ".mediumtext>a")
-
-    for href in memberHrefs:
-        _id = getIdFromURI(href)
-
-        createMemberWordList(
-            getHrefs(href, ".browselist-alphabetical>li>a"), _id, s
-        )
-
-
-def createSavvyWordList(htmlList: soup, _id, sqls: SQLSession):
-    for i in range(htmlList):
-        _id = int(f"{_id}{i}")
-        name = htmlList[i].select("h3")
-        items = htmlList[i].select(".browselist-alphabetical>li>a")
-
-        for item in items:
-            word_id = getWordListItemId(item.href)
-            addWordListEntry(interfaces.WordList(_id, name, word_id), sqls)
-
-
-def createMemberWordList(uris: Any, _id: int, name, sqls: SQLSession):
-    for uri in uris:
-        word_id = getWordListItemId(uri)
-
-        addWordListEntry(interfaces.WordList(_id, name, word_id), sqls)
-
-
-def fetchSentenceCategoryHrefs():
-    logging.info("Getting sentences from SigningSavvy")
-
-    # Second phrase list is Sentences by Category
-    uri = str(base / "sentences")
-    r = s.get(uri)
-    html = soup(r.text, "html.parser")
-    query = html.select(".phrase_list")
-    categoriesLinks = query.find_all("a")
-
-    hrefs = []
-    for link in categoriesLinks:
-        hrefs.append(link.href)
-
-
-def fetchSentenceLists(hrefs):
-    categoryHrefs = fetchSentenceCategoryHrefs()
-
-    for href in categoryHrefs:
-        sentenceHrefs = getHrefs(href, "div>p>a", base=False)
-
-        for href in sentenceHrefs:
-            createSentence(href)
-
-
-def createSentence(uri: str, sqls: SQLSession):
-    r = s.get(uri)
-    html = soup(r.text, "html.parser")
-
-    category = html.select(".wordlist-bar>a")[0].innerText
-    sentence = html.select(".signing_header")[0].innerText
-    vidld, vidsd, vidhd = getVideoLinks(html)
-
-    addSentence(
-        interfaces.Sentence(category, sentence, vidld, vidsd, vidhd), sqls
-    )
-
-
-def createArticles():
-    logging.info("Getting articles from SigningSavvy")
-
-    pages = str(base / "article") + getHrefs(
-        "article", ".blogpaging>.blogpage>a"
-    )
-
-    for page in pages:
-        r = s.get(page)
-        html = soup(r.text, "html.parser")
-        articleLinks = html.select(".blog_blurb>.blog_summary>h3>a")
-
-        for link in articleLinks:
-            createArticle(link.href)
-
-
-def createArticle(uri: str, sqls: SQLSession):
-    logging.info(
-        f"Working off HTML data from the \
-                {uri} for VALUES of insertion."
-    )
-
-    r = s.get(uri)
-    html = soup(r.text, "html.parser")
-
-    _id = getIdFromURI(uri)
-    author_name = getArticleAuthor(html)
-    date = getArticleDate(html)
-
-    addArticle(interfaces.Article(_id, author_name, date, html), sqls)
+    return f"{group}/{_id}.mp4"

@@ -2,7 +2,7 @@
   "id": 4943,
   "name": "Hello",
   "like": "a greeting",
-  "synonym": [
+  "synonyms": [
     {
       "id": 10780,
       "name": "Hi",
@@ -16,12 +16,10 @@
       "aid": "Available to full members. Become a member: https://www.signingsavvy.com/member",
       "usage": [
         {
-          "id": "24851/944",
           "english": "Hello, how are you?",
           "asl": "Hi. How you?"
         },
         {
-          "id": "24851/1459",
           "english": "Hello, Brad. Nice to meet you again.",
           "asl": "Hello B-r-a-d. Nice to meet you again."
         }
