@@ -10,16 +10,28 @@ import logging
 import re
 
 from pathlib import Path
+from typing import Any
 
 import requests
 
+from logging import basicConfig
 from bs4 import BeautifulSoup as soup
-from bs4 import select
 from requests import Session as rSession
+from sqlalchemy import select
 from sqlalchemy.orm import Session as SQLSession
 
 from pysign import db
 from pysign import interfaces
+
+
+basicConfig(
+    filename="../../logs/pysign.log",
+    format="[%(asctime)s] {%(pathname)s:%(lineno)d} \
+%(levelname)s - %(message)s",
+    datefmt="%H:%M:%S",
+    encoding="utf-8",
+    level=logging.INFO,
+)
 
 
 base = Path("https://www.signingsavvy.com")
@@ -171,7 +183,6 @@ def addVariant(variant: interfaces.Variant, sqls: SQLSession):
                 variant_vidsd=variant.vidsd,
                 variant_vidhd=variant.vidhd,
                 variant_index=variant.index,
-                variant_type=variant.type,
                 variant_desc=variant.desc,
                 variant_tip=variant.tip,
                 word_id=variant.word_id,
@@ -259,7 +270,6 @@ def createVariant(
 
     vidld, vidsd, vidhd = getVideoLinks(html)
 
-    _type = detail.getDetail("fa-hand-paper-o")
     desc = detail.getDetail("fa-info-circle")
     tip = f"""
     {detail.getDetail("icon-eyeglasses")}\n
@@ -269,9 +279,7 @@ def createVariant(
 
     logging.info("Inserting variant {variant_id} into table...")
     addVariant(
-        interfaces.Variant(
-            _id, uri, vidld, vidsd, vidhd, _type, desc, tip, word_id
-        ),
+        interfaces.Variant(_id, uri, vidld, vidsd, vidhd, desc, tip, word_id),
         sqls,
     )
 
@@ -360,7 +368,7 @@ def createSavvyWordList(htmlList: soup, _id, sqls: SQLSession):
             addWordListEntry(interfaces.WordList(_id, name, word_id), sqls)
 
 
-def createMemberWordList(uris: list(str), _id: int, name, sqls: SQLSession):
+def createMemberWordList(uris: Any, _id: int, name, sqls: SQLSession):
     for uri in uris:
         word_id = getWordListItemId(uri)
 

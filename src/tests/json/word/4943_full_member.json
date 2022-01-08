@@ -1,0 +1,68 @@
+{
+  "id": 4943,
+  "name": "Hello",
+  "like": "a greeting",
+  "synonym": [
+    {
+      "id": 10780,
+      "name": "Hi",
+      "like": "a greeting"
+    }
+  ],
+  "variants": [
+    {
+      "type": "ASL",
+      "desc": "Dominant hand in the B handshape, palm forward, fingertips start at the temple and move outward and up a little.",
+      "aid": "Think of a military salute.",
+      "usage": [
+        {
+          "id": "4882",
+          "english": "Hello, how are you?",
+          "asl": "Hi. How you?"
+        },
+        {
+          "id": "6714",
+          "english": "Hello, Brad. Nice to meet you again.",
+          "asl": "Hello B-r-a-d. Nice to meet you again."
+        }
+      ],
+      "video": "24/24851.mp4"
+    },
+    {
+      "type": "ASL",
+      "desc": "Dominant hand in the 5 handshape is in front of the torso and makes a waving movement.",
+      "aid": "Think of waving hello to someone.",
+      "usage": [
+        {
+          "english": "Hello, how are you today?",
+          "asl": "Hello, how you today?"
+        }
+      ],
+      "video": "24/24849.mp4"
+    },
+    {
+      "type": "ASL",
+      "desc": "Dominant hand in the 5 handshape is in front of the torso and makes a sliding movement from the non dominant side to the dominant side.",
+      "aid": "Think of waving hello to someone.",
+      "usage": [
+        {
+          "english": "Hello, how are you today?",
+          "asl": "Hello, how you today?"
+        }
+      ],
+      "video": "24/24850.mp4"
+    },
+    {
+      "type": "Fingerspelled",
+      "desc": "The letters H-E-L-L-O are fingerspelled.",
+      "aid": "Fingerspell the letters that make up the word.",
+      "usage": [
+        {
+          "english": "Hello, how are you today?",
+          "asl": "Hello, how you today?"
+        }
+      ],
+      "video": "30/30777.mp4"
+    }
+  ]
+}

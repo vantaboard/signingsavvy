@@ -17,7 +17,7 @@ warn_unused_ignores = true
 files = "src"
 
 [tool.black]
-line-length = 80
+line-length = 79
 include = ".pyi?$"
 exclude = """
 /(
@@ -39,7 +39,7 @@ exclude = """
 
 [tool.poetry]
 name = "pysign"
-version = "0.0.0"
+version = "0.0.0-post.38+078f4b6"
 description = "SigningSavvy API wrapper"
 authors = ["Brighten Tompkins <brightenqtompkins@gmail.com>"]
 maintainers = ["Brighten Tompkins <brightenqtompkins@gmail.com>"]
@@ -80,6 +80,7 @@ virtualenv = "^20.10.0"
 windows-curses = [
     { version = "^2.3.0", platform = "win32" },
 ]
+pick = "^1.2.0"
 
 [tool.poetry.dev-dependencies]
 black = "^21.11b1"
@@ -102,7 +103,7 @@ src_paths = ["."]
 extend_skip = ["setup.py"]
 
 [tool.poetry-dynamic-versioning]
-enable = true
+enable = false
 vcs = "git"
 style = "semver"
 

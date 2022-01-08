@@ -11,4 +11,8 @@ Submodules
 
     db
     start
+    anki
+    api
+    db
+    interfaces
 """
