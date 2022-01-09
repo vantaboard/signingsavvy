@@ -73,6 +73,10 @@ def formatSignLike(text: str):
     return re.findall(r"(?<=as in \").+(?=\")", text)[0]
 
 
+def formatSignVideo(text: str):
+    return re.findall(r"\d+\/\d+.mp4", text)[0]
+
+
 def fetchSignSynonyms(html: soup):
     synonyms = []
 
@@ -121,7 +125,7 @@ def fetchSignVariants(html: soup, name, sign):
             desc = fetchTabText(_, "fa-info-circle")
             aid = fetchTabText(_, "icon-eyeglasses")
             usage = fetchSignUsage(_)
-            video = fetchSignVideo(_)
+            video = formatSignVideo(_.select("video")[0]["src"])
 
         variants.append(
             {
