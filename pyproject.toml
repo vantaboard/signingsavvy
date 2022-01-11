@@ -39,7 +39,7 @@ exclude = """
 
 [tool.poetry]
 name = "pysign"
-version = "src/pysign/__version__.py:__version__"
+version = "0.1.1"
 description = "SigningSavvy API wrapper"
 authors = ["Brighten Tompkins <brightenqtompkins@gmail.com>"]
 maintainers = ["Brighten Tompkins <brightenqtompkins@gmail.com>"]
