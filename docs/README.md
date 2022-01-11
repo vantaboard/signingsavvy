@@ -8,9 +8,8 @@
 
 ## 👠 Features
 
-- API Wrapper
-- Support for updates
-- Database control
+- API
+- Quart usage
 
 ## Changelog
 
