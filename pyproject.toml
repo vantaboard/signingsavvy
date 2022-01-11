@@ -5,7 +5,7 @@ annotated_tag = true
 version_files = [
   "pyproject.toml:tool.commitizen.version",
   "pyproject.toml:tool.poetry.version",
-  "src/pysign/__version__.py:__version__"
+  "src/signingsavvy/__version__.py:__version__"
 ]
 
 [tool.mypy]
@@ -38,7 +38,7 @@ exclude = """
 """
 
 [tool.poetry]
-name = "pysign"
+name = "signingsavvy"
 version = "0.1.1"
 description = "SigningSavvy API wrapper"
 authors = ["Brighten Tompkins <brightenqtompkins@gmail.com>"]
@@ -46,11 +46,11 @@ maintainers = ["Brighten Tompkins <brightenqtompkins@gmail.com>"]
 license = "MIT"
 readme = "docs/README.md"
 packages = [
-    { include = "pysign", from = "src" }
+    { include = "signingsavvy", from = "src" }
 ]
-homepage = "https://blackboardd.github.io/pysign/"
-repository = "https://github.com/blackboardd/pysign"
-documentation = "https://blackboardd.github.io/pysign/"
+homepage = "https://blackboardd.github.io/signingsavvy/"
+repository = "https://github.com/blackboardd/signingsavvy"
+documentation = "https://blackboardd.github.io/signingsavvy/"
 keywords = [
   "Rest",
   "ASL",
@@ -105,14 +105,14 @@ requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.semantic_release]
-version_variable = "src/pysign/__version__.py:__version__"
+version_variable = "src/signingsavvy/__version__.py:__version__"
 version_toml = [
   "pyproject.toml:tool.poetry.version",
   "pyproject.toml:tool.commitizen.version"
 ]
 branch = "main"
 version_source = "tag"
-upload_to_pypi = false
+upload_to_pypi = true
 upload_to_release = true
 build_command = "pip install poetry && poetry build"
 changelog_file = "docs/CHANGELOG.md"

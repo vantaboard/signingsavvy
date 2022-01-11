@@ -1,6 +1,6 @@
 import logging
 
-import pysign_api
+import signingsavvy_api
 
 
 if __name__ == "__main__":
@@ -10,4 +10,4 @@ if __name__ == "__main__":
         if not isinstance(level, int):
             raise ValueError(f"Bad log level: {level}")
 
-    pysign_api.app.run(port=5949)
+    signingsavvy_api.app.run(port=5949)

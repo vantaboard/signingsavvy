@@ -8,5 +8,5 @@ Submodules
 .. autosummary::
     :toctree: _autosummary
 
-    pysign_api
+    signingsavvy_api
 """

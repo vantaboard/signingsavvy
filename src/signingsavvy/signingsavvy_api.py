@@ -42,7 +42,7 @@ with session() as c:
 
     # Set up logging config
     basicConfig(
-        filename="pysign.log",
+        filename="signingsavvy.log",
         format="[%(asctime)s] {%(pathname)s:%(lineno)d} \
     %(levelname)s - %(message)s",
         datefmt="%H:%M:%S",

@@ -1,4 +1,4 @@
-# Contributing to pySign
+# Contributing to signingsavvy
 
 Here are some of the guidelines to follow if you intend to contribute!
 
@@ -11,8 +11,8 @@ Book Builder uses [Contributor Covenant](https://www.contributor-covenant.org/).
 
 ```shell
 # Clone repo
-$ git clone https://github.com/blackboardd/pysign.git
-$ cd pysign
+$ git clone https://github.com/blackboardd/signingsavvy.git
+$ cd signingsavvy
 
 # Install dependencies
 $ poetry install
