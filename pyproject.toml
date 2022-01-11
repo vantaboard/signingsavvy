@@ -1,11 +1,11 @@
 [tool.commitizen]
 version = "0.0.0"
-tag_format = 'v$major.$minor.$patch$prerelease'
+tag_format = "v$major.$minor.$patch$prerelease"
 annotated_tag = true
 version_files = [
-  'pyproject.toml:tool.commitizen.version',
-  'pyproject.toml:tool.poetry.version',
-  'src/pysign/__version__.py:__version__'
+  "pyproject.toml:tool.commitizen.version",
+  "pyproject.toml:tool.poetry.version",
+  "src/pysign/__version__.py:__version__"
 ]
 
 [tool.mypy]
@@ -14,18 +14,18 @@ ignore_missing_imports = true
 warn_redundant_casts = true
 warn_unused_configs = true
 warn_unused_ignores = true
-files = 'src'
+files = "src"
 
 [tool.black]
-line-length = 80
-include = '\.pyi?$'
-exclude = '''
+line-length = 79
+include = ".pyi?$"
+exclude = """
 /(
-    \.git
-  | \.hg
-  | \.mypy_cache
-  | \.tox
-  | \.venv
+    .git
+  | .hg
+  | .mypy_cache
+  | .tox
+  | .venv
   | _build
   | buck-out
   | build
@@ -35,87 +35,84 @@ exclude = '''
   | tests/data
   | profiling
 )/
-'''
+"""
 
 [tool.poetry]
-name = 'pysign'
-version = "0.0.0"
+name = "pysign"
+version = "0.0.0-post.38+078f4b6"
 description = "SigningSavvy API wrapper"
 authors = ["Brighten Tompkins <brightenqtompkins@gmail.com>"]
-maintainers = ['Brighten Tompkins <brightenqtompkins@gmail.com>']
-license = 'MIT'
-readme = 'docs/README.md'
+maintainers = ["Brighten Tompkins <brightenqtompkins@gmail.com>"]
+license = "MIT"
+readme = "docs/README.md"
 packages = [
-    { include = 'pysign', from = 'src' }
+    { include = "pysign", from = "src" }
 ]
-homepage = 'https://blackboardd.github.io/pysign/'
-repository = 'https://github.com/blackboardd/pysign'
-documentation = 'https://blackboardd.github.io/pysign/'
+homepage = "https://blackboardd.github.io/pysign/"
+repository = "https://github.com/blackboardd/pysign"
+documentation = "https://blackboardd.github.io/pysign/"
 keywords = [
-  'API Wrapper',
-  'ASL',
-  'Sign Language',
-  'Flashcards',
-  'Anki'
+  "Rest",
+  "ASL",
+  "Sign Language",
+  "API",
+  "SigningSavvy",
 ]
-exclude = ['*.coco']
 classifiers = [
-    'License :: OSI Approved :: MIT License',
-    'Programming Language :: Python :: 3.7',
-    'Programming Language :: Python :: 3.8',
-    'Programming Language :: Python :: 3.9'
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9"
 ]
 
 [tool.poetry.dependencies]
 bs4 = "^0.0.1"
 myst-parser = "^0.15.2"
-poetry-core = '^1.0.7'
-py-bcrypt = "^0.4"
-python = ">=3.6.2,<4.0"
+poetry-core = "^1.0.7"
+python = ">=3.7,<4.0"
 renku-sphinx-theme = "^0.2.2"
 requests = "^2.26.0"
 Sphinx = "^4.3.0"
-SQLAlchemy = "^1.4.27"
-virtualenv = '^20.10.0'
-windows-curses = "^2.3.0"
+virtualenv = "^20.10.0"
+pick = "^1.2.0"
+quart = "^0.16.2"
+tox = "^3.24.5"
+quart-rate-limiter = "^0.6.0"
 
 [tool.poetry.dev-dependencies]
-black = '^21.11b1'
-coconut = '^1.6.0'
+black = "^21.11b1"
 flake8 = "^4.0.1"
-poetry-dynamic-versioning = '^0.13.1'
-pytest = "^6.2.5"
-pytest-cov = "^3.0.0"
+poetry-dynamic-versioning = "^0.13.1"
 python-semantic-release = "^7.22.0"
 sphinx-autobuild = "^2021.3.14"
 
 [tool.isort]
 py_version = 36
-profile = 'black'
+profile = "black"
 force_single_line = true
 combine_as_imports = true
 lines_between_types = 1
 lines_after_imports = 2
-src_paths = ['.']
-extend_skip = ['setup.py']
+src_paths = ["."]
+extend_skip = ["setup.py"]
 
 [tool.poetry-dynamic-versioning]
-enable = true
-vcs = 'git'
-style = 'semver'
+enable = false
+vcs = "git"
+style = "semver"
 
 [build-system]
-requires = ['poetry-core>=1.0.0', 'poetry-dynamic-versioning']
-build-backend = 'poetry.core.masonry.api'
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
+build-backend = "poetry.core.masonry.api"
 
 [tool.semantic_release]
-version_variable = 'src/pysign/__version__.py:__version__'
+version_variable = "src/pysign/__version__.py:__version__"
 version_toml = [
-  'pyproject.toml:tool.poetry.version',
-  'pyproject.toml:tool.commitizen.version'
+  "pyproject.toml:tool.poetry.version",
+  "pyproject.toml:tool.commitizen.version"
 ]
-branch = 'main'
-version_source = 'tag'
+branch = "main"
+version_source = "tag"
 upload_to_pypi = false
 upload_to_release = true
 build_command = "pip install poetry && poetry build"

@@ -1,7 +1,7 @@
-import sys
-
+import logging
 
 if __name__ == "__main__":
-    from poetry.console.application import main
-
-    sys.exit(main())
+    def __init__(self, loglevel):
+        level = getattr(logging, loglevel.upper(), None)
+        if not isinstance(level, int):
+            raise ValueError(f"Bad log level: {level}")

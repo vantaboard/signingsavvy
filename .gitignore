@@ -3,10 +3,6 @@ __pycache__
 .env
 db
 assets
-src/pysign/*.py
-!src/pysign/__init__.py
-!src/pysign/__main__.py
-!src/pysign/__version__.py
 src/tests/assets
 
 # tests

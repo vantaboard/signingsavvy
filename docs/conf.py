@@ -9,7 +9,7 @@ sys.path.insert(0, os.path.abspath("../src"))
 # -- Project information -----------------------------------------------------
 
 project = "pysign"
-copyright = "2021, Brighten Tompkins"
+copyright = "2022, Brighten Tompkins"
 author = "Brighten Tompkins"
 
 
