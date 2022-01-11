@@ -462,4 +462,4 @@ with session() as c:
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(port=5949)
