@@ -39,7 +39,7 @@ exclude = """
 
 [tool.poetry]
 name = "signingsavvy"
-version = "0.1.1"
+version = "0.1.2"
 description = "SigningSavvy API wrapper"
 authors = ["Brighten Tompkins <brightenqtompkins@gmail.com>"]
 maintainers = ["Brighten Tompkins <brightenqtompkins@gmail.com>"]
