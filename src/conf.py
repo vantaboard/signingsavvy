@@ -24,10 +24,10 @@ exclude_patterns = []
 
 autosummary_generate = True
 autodoc_default_options = {
-  "members": True,
-  "inherited-members": True,
-  "private-members": True,
-  "show-inheritance": True,
+    "members": True,
+    "inherited-members": True,
+    "private-members": True,
+    "show-inheritance": True,
 }
 
 # -- Options for HTML output -------------------------------------------------
