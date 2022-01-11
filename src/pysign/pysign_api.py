@@ -42,7 +42,7 @@ with session() as c:
 
     # Set up logging config
     basicConfig(
-        filename="../../logs/pysign.log",
+        filename="pysign.log",
         format="[%(asctime)s] {%(pathname)s:%(lineno)d} \
     %(levelname)s - %(message)s",
         datefmt="%H:%M:%S",
@@ -459,7 +459,3 @@ with session() as c:
                 )
             )
         }
-
-
-if __name__ == "__main__":
-    app.run(port=5949)

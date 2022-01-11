@@ -8,5 +8,5 @@ Submodules
 .. autosummary::
     :toctree: _autosummary
 
-    api
+    pysign_api
 """
