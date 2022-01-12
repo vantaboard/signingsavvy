@@ -194,7 +194,7 @@ with session() as c:
 
         if text == []:
             query = html.select_one(".fa-film + div>p")
-            return query.text if content else ""
+            return query.text if query else ""
 
         english = []
         asl = []
