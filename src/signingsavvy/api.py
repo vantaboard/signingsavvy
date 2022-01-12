@@ -193,7 +193,8 @@ with session() as c:
         text = html.select(".fa-film + div>div>p")
 
         if text == []:
-            return html.select_one(".fa-film + div>p").text
+            query = html.select_one(".fa-film + div>p")
+            return query.text if content else ""
 
         english = []
         asl = []
@@ -289,11 +290,13 @@ with session() as c:
                 "value": "ASL Sentences are available only to full members."
             }
 
+        category = html.select_one(".wordlist-bar > a")
+
         return {
             "id": sentence,
             "english": fetchTabText(html, "fa-pencil"),
             "asl": fetchTabText(html, "fa-hand-paper-o"),
-            "category": html.select_one(".wordlist-bar > a").text,
+            "category": category.text if category else "",
             "glossary": fetchGlossary(html),
             "video": formatSignVideo(html.select_one("video>source")["src"]),
         }
