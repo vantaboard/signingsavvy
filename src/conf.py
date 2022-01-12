@@ -4,7 +4,7 @@ import os
 import sys
 
 
-sys.path.insert(0, os.path.abspath("../src"))
+sys.path.insert(0, os.path.abspath("."))
 
 
 # -- Project information -----------------------------------------------------
@@ -16,7 +16,11 @@ author = "Brighten Tompkins"
 
 # -- General configuration ---------------------------------------------------
 
-extensions = ["sphinx.ext.autodoc", "sphinx.ext.autosummary"]
+extensions = [
+    "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
+    "sphinx.ext.napoleon",
+]
 
 templates_path = ["_templates"]
 
@@ -33,3 +37,6 @@ autodoc_default_options = {
 # -- Options for HTML output -------------------------------------------------
 
 html_theme = "renku"
+
+# Napoleon settings
+napoleon_google_docstring = True

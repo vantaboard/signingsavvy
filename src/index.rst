@@ -1,15 +1,21 @@
-Welcome to signingsavvy's documentation!
-==================================
+signingsavvy package
+====================
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+Submodules
+----------
+
+signingsavvy.api module
+-----------------------
+
+.. automodule:: signingsavvy.api
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
 
 .. automodule:: signingsavvy
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   :members:
+   :undoc-members:
+   :show-inheritance:
