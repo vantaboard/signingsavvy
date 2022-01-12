@@ -19,8 +19,7 @@ app = Quart(__name__)
 def payload() -> dict:
     """Function that retrieves request payload for headers.
 
-    Quart is used to pull the headers from a request into
-    the Python requests session.
+    Quart is used to pull the headers from a request into the Python requests session.
 
     Returns:
         dict: Payload for SigningSavvy membership authentication.
@@ -127,8 +126,7 @@ with session() as c:
 
         Args:
             text (str): Full text from sign description.
-            regexExpr (str): Regex expression to match either a
-                sign name or its clarification.
+            regexExpr (str): Regex expression to match either a sign name or its clarification.
 
         Returns:
             str: Sign name or its clarification.
@@ -186,8 +184,7 @@ with session() as c:
             html (soup): HTML data to fetch from.
 
         Returns:
-            list: A list of responses containing
-                English and ASL entries.
+            list: A list of responses containing English and ASL entries.
 
         """
 
@@ -218,8 +215,7 @@ with session() as c:
             _id (str): The id of the sign.
 
         Returns:
-            list: A list of responses containing
-                variants for the given sign.
+            list: A list of responses containing variants for the given sign.
 
         """
 
@@ -271,6 +267,9 @@ with session() as c:
     def fetchSentence(category: str, sentence: str) -> dict:
         """Function to pull a specific sentence.
 
+        Note:
+            @app.route("/sentence/<category>/<sentence>")
+
         Args:
             category (str): The category for the sentence.
             sentence (str): The sentence.
@@ -300,6 +299,9 @@ with session() as c:
     @app.route("/sign/<sign>/<_id>")
     def fetchSign(sign: str, _id: str) -> dict:
         """Function to pull information for a given sign.
+
+        Note:
+            @app.route("/sign/<sign>/<_id>")
 
         Args:
             sign (str): The name of the sign.
@@ -331,6 +333,9 @@ with session() as c:
     def browse(letter: str) -> dict:
         """Function to pull a list of signs by alphabetical letter.
 
+        Note:
+            @app.route("/browse/<letter>")
+
         Args:
             letter (str): The letter to pull signs for.
 
@@ -349,6 +354,9 @@ with session() as c:
     def search(sign: str) -> dict:
         """Function to pull one or more signs through a search result.
 
+        Note:
+            @app.route("/search/<sign>")
+
         If only one sign is found, the information is returned directly.
         If more signs are found, a list of results are returned.
 
@@ -356,9 +364,7 @@ with session() as c:
             sign (str): The word/term to search for.
 
         Returns:
-            dict: Response containing a response of matching signs or a
-                response containing information from the sign in the event
-                that only a single sign is found.
+            dict: Response containing a response of matching signs or a response containing information from the sign in the event that only a single sign is found.
 
         """
 
@@ -376,9 +382,7 @@ with session() as c:
             sign (str): The name of the sign.
 
         Returns:
-            dict: Response containing a response of matching signs or a
-                response containing information from the sign in the event
-                that only a single sign is found.
+            dict: Response containing a response of matching signs or a response containing information from the sign in the event that only a single sign is found.
 
         """
 
@@ -416,6 +420,9 @@ with session() as c:
     def sentenceCategories() -> dict:
         """Function to gather SigningSavvy categories for sentences
 
+        Note:
+            @app.route("/sentences")
+
         Returns:
             dict: Response containing all SigningSavvy categories.
 
@@ -431,6 +438,9 @@ with session() as c:
     @app.route("/sentences/<category>")
     def sentenceCategoryEntries(category: str) -> dict:
         """Function to gather sentences from a category
+
+        Note:
+            @app.route("/sentences/<category>")
 
         Args:
             category (str): The desired category for a given sentence.
