@@ -1,3 +1,9 @@
+## v1.0.3 (2022-01-12)
+
+### Fix
+
+- **api.py**: fixed some nonetype issues with querying tab data
+
 ## v1.0.2 (2022-01-12)
 
 ### Fix

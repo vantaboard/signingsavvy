@@ -1,5 +1,5 @@
 [tool.commitizen]
-version = "1.0.2"
+version = "1.0.3"
 tag_format = "v$major.$minor.$patch$prerelease"
 annotated_tag = true
 version_files = [
