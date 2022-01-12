@@ -1,9 +1,9 @@
 __pycache__
 .pytest_cache
 .env
-db
-assets
-src/tests/assets
+
+# poetry build files
+dist
 
 # tests
 junit
