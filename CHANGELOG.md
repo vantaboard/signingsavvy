@@ -1,3 +1,10 @@
+## v1.0.0 (2022-01-12)
+
+### Fix
+
+- **api.py**: fixed issue where video was not included in response
+- **api.py**: fixed issue where video was not included in response
+
 ## v0.1.3 (2022-01-12)
 
 ### Fix
