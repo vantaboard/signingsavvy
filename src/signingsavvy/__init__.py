@@ -1,6 +1,10 @@
 __path__ = __import__("pkgutil").extend_path(__path__, __name__)
 # type: ignore[has-type]
 
+from signingsavvy import __version__
+from signingsavvy import api
+
+
 """
 Submodules
 ==========
@@ -8,5 +12,5 @@ Submodules
 .. autosummary::
     :toctree: _autosummary
 
-    signingsavvy_api
+    api
 """
