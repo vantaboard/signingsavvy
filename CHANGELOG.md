@@ -1,3 +1,9 @@
+## v1.0.1 (2022-01-12)
+
+### Fix
+
+- **api.py**: removed pypi from ci and fixed none error in api from fetchtabtext function
+
 ## v1.0.0 (2022-01-12)
 
 ### Fix
