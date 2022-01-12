@@ -1,3 +1,9 @@
+## v1.0.4 (2022-01-12)
+
+### Fix
+
+- **api.py**: line 197 if content should be if query
+
 ## v1.0.3 (2022-01-12)
 
 ### Fix
