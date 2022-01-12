@@ -1,3 +1,10 @@
+## v0.1.3 (2022-01-12)
+
+### Fix
+
+- **src/signingsavvy**: modified api to use less automatic functioning and instead need to be called in order to be initiated
+- **.gitignore**: removed unused ignored files and started ignoring distribution files from poetry
+
 ## v0.1.2 (2022-01-12)
 
 ### Fix
