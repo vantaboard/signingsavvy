@@ -1,3 +1,9 @@
+## v1.0.2 (2022-01-12)
+
+### Fix
+
+- **api.py**: fixing issue with fetchtabtext
+
 ## v1.0.1 (2022-01-12)
 
 ### Fix
