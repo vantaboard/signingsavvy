@@ -92,8 +92,8 @@ with session() as c:
         """
 
         logging.info(f"Getting text from a tab using {classCSS}")
-        text = html.select_one(f".{classCSS} + div>p").text
-        return text if text else ""
+        query = html.select_one(f".{classCSS} + div>p")
+        return query.text if query else ""
 
     def formatSignName(text: str) -> str:
         """Function to pull the name of a word from the full text.
