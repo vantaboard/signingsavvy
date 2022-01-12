@@ -1,3 +1,12 @@
+## v0.1.2 (2022-01-12)
+
+### Fix
+
+- **forced_update**: fixing a forced update because I made a mistake lol
+- **__main__.py**: moved api code into __main__.py
+- **poetry.lock**: updated poetry lock file
+- **pysign**: changed repo name in order to upload to pypi
+
 ## v0.1.1 (2022-01-11)
 
 ### Refactor
