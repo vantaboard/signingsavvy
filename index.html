@@ -1,0 +1,594 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>signingsavvy package &mdash; signingsavvy  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  <link rel="stylesheet" href="_static/fonts.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home"> signingsavvy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">signingsavvy package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-signingsavvy.api">signingsavvy.api module</a></li>
+<li><a class="reference internal" href="#module-signingsavvy">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">signingsavvy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+<div class="git-ribbon">
+  <a href="http://github.com/SwissDataScienceCenter" rel="me">Join us on GitHub</a>
+</div>
+
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>signingsavvy package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="signingsavvy-package">
+<h1>signingsavvy package<a class="headerlink" href="#signingsavvy-package" title="Permalink to this headline">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-signingsavvy.api">
+<span id="signingsavvy-api-module"></span><h2>signingsavvy.api module<a class="headerlink" href="#module-signingsavvy.api" title="Permalink to this headline">¶</a></h2>
+<p>Module using quart to construct a restful api for use with signingsavvy.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="signingsavvy.api.IdFromUri">
+<span class="sig-prename descclassname"><span class="pre">signingsavvy.api.</span></span><span class="sig-name descname"><span class="pre">IdFromUri</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#signingsavvy.api.IdFromUri" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to pull id from uri.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>uri</strong> (<em>str</em>) – Uri to pull id from.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the regex matched id.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="signingsavvy.api.browse">
+<span class="sig-prename descclassname"><span class="pre">signingsavvy.api.</span></span><span class="sig-name descname"><span class="pre">browse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">letter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#signingsavvy.api.browse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to pull a list of signs by alphabetical letter.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>&#64;app.route(“/browse/&lt;letter&gt;”)</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>letter</strong> (<em>str</em>) – The letter to pull signs for.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Response containing a list of signs from a given letter.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="signingsavvy.api.fetchGlossary">
+<span class="sig-prename descclassname"><span class="pre">signingsavvy.api.</span></span><span class="sig-name descname"><span class="pre">fetchGlossary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">html</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bs4.BeautifulSoup</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#signingsavvy.api.fetchGlossary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to pull the list of words that make up a sentence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>html</strong> (<em>soup</em>) – HTML data to fetch from.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of responses containing the glossary for a sign.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="signingsavvy.api.fetchSentence">
+<span class="sig-prename descclassname"><span class="pre">signingsavvy.api.</span></span><span class="sig-name descname"><span class="pre">fetchSentence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentence</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#signingsavvy.api.fetchSentence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to pull a specific sentence.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>&#64;app.route(“/sentence/&lt;category&gt;/&lt;sentence&gt;”)</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>category</strong> (<em>str</em>) – The category for the sentence.</p></li>
+<li><p><strong>sentence</strong> (<em>str</em>) – The sentence.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A response that contains information for the sentence.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="signingsavvy.api.fetchSign">
+<span class="sig-prename descclassname"><span class="pre">signingsavvy.api.</span></span><span class="sig-name descname"><span class="pre">fetchSign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sign</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#signingsavvy.api.fetchSign" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to pull information for a given sign.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>&#64;app.route(“/sign/&lt;sign&gt;/&lt;_id&gt;”)</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sign</strong> (<em>str</em>) – The name of the sign.</p></li>
+<li><p><strong>_id</strong> (<em>str</em>) – The id of the sign.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A response that contains information for the sign.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="signingsavvy.api.fetchSignSynonyms">
+<span class="sig-prename descclassname"><span class="pre">signingsavvy.api.</span></span><span class="sig-name descname"><span class="pre">fetchSignSynonyms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">html</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bs4.BeautifulSoup</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#signingsavvy.api.fetchSignSynonyms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to pull synonyms for a sign.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>html</strong> (<em>soup</em>) – HTML data to fetch from.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List containing synonyms of the given sign.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="signingsavvy.api.fetchSignUsage">
+<span class="sig-prename descclassname"><span class="pre">signingsavvy.api.</span></span><span class="sig-name descname"><span class="pre">fetchSignUsage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">html</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bs4.BeautifulSoup</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#signingsavvy.api.fetchSignUsage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to pull one or more usages from a sign.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>html</strong> (<em>soup</em>) – HTML data to fetch from.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of responses containing English and ASL entries.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="signingsavvy.api.fetchSignVariants">
+<span class="sig-prename descclassname"><span class="pre">signingsavvy.api.</span></span><span class="sig-name descname"><span class="pre">fetchSignVariants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">html</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bs4.BeautifulSoup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sign</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#signingsavvy.api.fetchSignVariants" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to pull the variants of a sign.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>html</strong> (<em>soup</em>) – HTML data to fetch from.</p></li>
+<li><p><strong>sign</strong> (<em>str</em>) – The name of the sign.</p></li>
+<li><p><strong>_id</strong> (<em>str</em>) – The id of the sign.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of responses containing variants for the given sign.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="signingsavvy.api.fetchTabText">
+<span class="sig-prename descclassname"><span class="pre">signingsavvy.api.</span></span><span class="sig-name descname"><span class="pre">fetchTabText</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">html</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bs4.BeautifulSoup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classCSS</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#signingsavvy.api.fetchTabText" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function get the text from inside a tab element.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>html</strong> (<em>soup</em>) – HTML data to fetch from.</p></li>
+<li><p><strong>classCSS</strong> (<em>str</em>) – CSS class to query the html.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>text returned from the tab.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="signingsavvy.api.formatSignClarification">
+<span class="sig-prename descclassname"><span class="pre">signingsavvy.api.</span></span><span class="sig-name descname"><span class="pre">formatSignClarification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#signingsavvy.api.formatSignClarification" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to pull the clarification of a word from the full text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text</strong> (<em>str</em>) – Full text from sign description.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Sign clarification.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="signingsavvy.api.formatSignName">
+<span class="sig-prename descclassname"><span class="pre">signingsavvy.api.</span></span><span class="sig-name descname"><span class="pre">formatSignName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#signingsavvy.api.formatSignName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to pull the name of a word from the full text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text</strong> (<em>str</em>) – Full text from sign description.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Sign name.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="signingsavvy.api.formatSignNameClarification">
+<span class="sig-prename descclassname"><span class="pre">signingsavvy.api.</span></span><span class="sig-name descname"><span class="pre">formatSignNameClarification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regexExpr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#signingsavvy.api.formatSignNameClarification" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Function to pull either the clarification or name of</dt><dd><p>a word from the full text.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>str</em>) – Full text from sign description.</p></li>
+<li><p><strong>regexExpr</strong> (<em>str</em>) – Regex expression to match either a sign name or its clarification.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Sign name or its clarification.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="signingsavvy.api.formatSignVideo">
+<span class="sig-prename descclassname"><span class="pre">signingsavvy.api.</span></span><span class="sig-name descname"><span class="pre">formatSignVideo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">href</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#signingsavvy.api.formatSignVideo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to pull a fragment of the uri for a sign’s video.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>href</strong> (<em>str</em>) – Href for a sign’s video.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Uri fragment of a sign’s video.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="signingsavvy.api.getHTML">
+<span class="sig-prename descclassname"><span class="pre">signingsavvy.api.</span></span><span class="sig-name descname"><span class="pre">getHTML</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bs4.BeautifulSoup</span></span></span><a class="headerlink" href="#signingsavvy.api.getHTML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generalized function for getting html from a uri.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>uri</strong> (<em>str</em>) – Uri to request from.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The parsed HTML from the response text.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>soup</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="signingsavvy.api.payload">
+<span class="sig-prename descclassname"><span class="pre">signingsavvy.api.</span></span><span class="sig-name descname"><span class="pre">payload</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#signingsavvy.api.payload" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that retrieves request payload for headers.</p>
+<p>Quart is used to pull the headers from a request into the Python requests session.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Payload for SigningSavvy membership authentication.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="signingsavvy.api.search">
+<span class="sig-prename descclassname"><span class="pre">signingsavvy.api.</span></span><span class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sign</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#signingsavvy.api.search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to pull one or more signs through a search result.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>&#64;app.route(“/search/&lt;sign&gt;”)</p>
+</div>
+<p>If only one sign is found, the information is returned directly.
+If more signs are found, a list of results are returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sign</strong> (<em>str</em>) – The word/term to search for.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Response containing a response of matching signs or a response containing information from the sign in the event that only a single sign is found.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="signingsavvy.api.seekSign">
+<span class="sig-prename descclassname"><span class="pre">signingsavvy.api.</span></span><span class="sig-name descname"><span class="pre">seekSign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">html</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bs4.BeautifulSoup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sign</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#signingsavvy.api.seekSign" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to search for signs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>html</strong> (<em>soup</em>) – HTML data to fetch from.</p></li>
+<li><p><strong>sign</strong> (<em>str</em>) – The name of the sign.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Response containing a response of matching signs or a response containing information from the sign in the event that only a single sign is found.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="signingsavvy.api.sentenceCategories">
+<span class="sig-prename descclassname"><span class="pre">signingsavvy.api.</span></span><span class="sig-name descname"><span class="pre">sentenceCategories</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#signingsavvy.api.sentenceCategories" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to gather SigningSavvy categories for sentences</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>&#64;app.route(“/sentences”)</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Response containing all SigningSavvy categories.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="signingsavvy.api.sentenceCategoryEntries">
+<span class="sig-prename descclassname"><span class="pre">signingsavvy.api.</span></span><span class="sig-name descname"><span class="pre">sentenceCategoryEntries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#signingsavvy.api.sentenceCategoryEntries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to gather sentences from a category</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>&#64;app.route(“/sentences/&lt;category&gt;”)</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>category</strong> (<em>str</em>) – The desired category for a given sentence.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Response containing the given sentence as well as its uri.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-signingsavvy">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-signingsavvy" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2022, Brighten Tompkins.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
