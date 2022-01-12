@@ -267,7 +267,7 @@ with session() as c:
 
         return glossary
 
-    @app.route("/sentence/<category>/<sentence>")
+    @app.route("/sentences/<category>/<sentence>")
     def fetchSentence(category: str, sentence: str) -> dict:
         """Function to pull a specific sentence.
 
@@ -295,6 +295,7 @@ with session() as c:
             "asl": fetchTabText(html, "fa-hand-paper-o"),
             "category": html.select_one(".wordlist-bar > a").text,
             "glossary": fetchGlossary(html),
+            "video": formatSignVideo(html.select_one("video>source")["src"]),
         }
 
     @app.route("/sign/<sign>/<_id>")
@@ -450,7 +451,7 @@ with session() as c:
             "categories": list(
                 map(
                     lambda tag: {
-                        "uri": tag["href"],
+                        "uri": tag["href"].replace("sentences/", ""),
                         "sentence": re.sub(
                             r"([\.?!,](?=\w))", r"\1 ", tag.text
                         ),
