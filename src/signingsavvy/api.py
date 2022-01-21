@@ -137,7 +137,7 @@ with session() as c:
         logging.info(f"Formatting {text}")
         regex: list(str) = re.findall(regexExpr, text)
 
-        return text if regex == [] else regex[0]
+        return "" if regex == [] else regex[0]
 
     def formatSignVideo(href: str) -> str:
         """Function to pull a fragment of the uri for a sign's video.

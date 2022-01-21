@@ -1,5 +1,5 @@
 [tool.commitizen]
-version = "1.0.4"
+version = "1.0.6"
 tag_format = "v$major.$minor.$patch$prerelease"
 annotated_tag = true
 version_files = [
@@ -39,7 +39,7 @@ exclude = """
 
 [tool.poetry]
 name = "signingsavvy"
-version = "1.0.4"
+version = "1.0.7"
 description = "SigningSavvy API wrapper"
 authors = ["Brighten Tompkins <brightenqtompkins@gmail.com>"]
 maintainers = ["Brighten Tompkins <brightenqtompkins@gmail.com>"]
@@ -67,20 +67,19 @@ classifiers = [
 
 [tool.poetry.dependencies]
 bs4 = "^0.0.1"
-myst-parser = "^0.15.2"
 poetry-core = "^1.0.7"
 python = ">=3.7,<4.0"
-renku-sphinx-theme = "^0.2.2"
 requests = "^2.26.0"
-Sphinx = "^4.3.0"
 virtualenv = "^20.10.0"
 quart = "^0.16.2"
-tox = "^3.24.5"
-quart-rate-limiter = "^0.6.0"
-sphinxcontrib-napoleon = "^0.7"
 
 [tool.poetry.dev-dependencies]
+myst-parser = "^0.15.2"
+Sphinx = "^4.3.0"
+tox = "^3.24.5"
 black = "^21.11b1"
+sphinxcontrib-napoleon = "^0.7"
+renku-sphinx-theme = "^0.2.2"
 flake8 = "^4.0.1"
 poetry-dynamic-versioning = "^0.13.1"
 python-semantic-release = "^7.22.0"
